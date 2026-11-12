@@ -227,3 +227,7 @@
 "Şarjdan çıkınca açılır, şarja takılınca kapanır." = "Turns on when unplugged and off when plugged in.";
 "Şimdi Temizle" = "Clear Now";
 "“%@” alanı silinsin mi?" = "Delete the “%@” workspace?";
+"Varsayılan tarayıcı" = "Default browser";
+"NOX varsayılan tarayıcınız." = "NOX is your default browser.";
+"Varsayılan Yap…" = "Make Default…";
+"NOX'u Varsayılan Tarayıcı Yap…" = "Make NOX the Default Browser…";

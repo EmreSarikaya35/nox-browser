@@ -22,6 +22,7 @@ private struct GeneralSettings: View {
     @State private var importResult = ""
     @AppStorage("appLanguage") private var appLanguage = "system"
     @State private var languageChanged = false
+    @State private var isDefaultBrowser = DefaultBrowser.isDefault
     @State private var newWorkspace = ""
     @ObservedObject private var workspaces = Services.workspaces
 
@@ -44,6 +45,10 @@ private struct GeneralSettings: View {
                         Button("Yeniden Başlat") { Updater.shared.relaunch() }.controlSize(.small)
                     }
                 }
+            }
+            LabeledContent("Varsayılan tarayıcı") {
+                if isDefaultBrowser { Text("NOX varsayılan tarayıcınız.").foregroundStyle(.secondary) }
+                else { Button("Varsayılan Yap…") { DefaultBrowser.makeDefault { isDefaultBrowser = DefaultBrowser.isDefault } } }
             }
             Picker("Arama motoru", selection: $engine) {
                 ForEach(SearchEngine.allCases) { Text($0.rawValue).tag($0.rawValue) }

@@ -80,6 +80,7 @@
 		8C01F680CE2C5AD9A7775AB7 /* AdBlockPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdBlockPanel.swift; sourceTree = "<group>"; };
 		8FBD702995840FC1BC963CFF /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 		93180E07C73E8BAD7CE8043A /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		951720826F1F00410AE4927E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		97971321C29461581CD4494D /* PerformanceMonitorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceMonitorTests.swift; sourceTree = "<group>"; };
 		A4F769BAEB169ECC2AFC600A /* NOX.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NOX.entitlements; sourceTree = "<group>"; };
 		AC0C395A0D1D65B07D0AB56C /* BrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserView.swift; sourceTree = "<group>"; };
@@ -123,6 +124,7 @@
 				C315E5E8ECFAB0D3690654D5 /* GameSchemeHandler.swift */,
 				BE6E132C8F74F11058EA0A15 /* HLS.swift */,
 				0A8086DB242CCAA0B4B6D3AD /* Importer.swift */,
+				951720826F1F00410AE4927E /* Info.plist */,
 				4601E69FB2FFF6177BD44B9C /* MediaDetector.swift */,
 				A4F769BAEB169ECC2AFC600A /* NOX.entitlements */,
 				19C996EA766AB981AC22286C /* NOXApp.swift */,
@@ -372,6 +374,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NOX/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "NOX Browser";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Web siteleri izninizle kamerayı kullanabilir.";
@@ -442,7 +445,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.8.0;
+				MARKETING_VERSION = 0.9.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -461,6 +464,7 @@
 				CODE_SIGN_ENTITLEMENTS = NOX/NOX.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NOX/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "NOX Browser";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Web siteleri izninizle kamerayı kullanabilir.";
@@ -541,7 +545,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.8.0;
+				MARKETING_VERSION = 0.9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";

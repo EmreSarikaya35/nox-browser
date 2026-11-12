@@ -38,6 +38,7 @@ NOX is not signed with an Apple Developer ID. On first launch, right-click NOX i
   macOS Keychain, no telemetry.
 - **Dark web pages**, **picture in picture**, bookmark and password **import** from Safari, Chrome and Firefox.
 - **English and Turkish** interface, chosen automatically from the system language.
+- **Can be your default browser** — links from other apps open in NOX.
 - **A hidden game** — Spirit Quest: The Forgotten Shrine, an offline pixel-art RPG built into the browser.
 
 ## Details
@@ -145,6 +146,12 @@ Limits: only the first window's session is saved; page darkening works by invert
 and some sites look odd; the right pane of split view has no address bar of its own; picture in picture depends on a
 private WebKit preference; updates are verified by source repository, bundle identifier and version, not by a
 cryptographic signature.
+
+### Default browser
+
+Settings → General → Default browser → Make Default… (also in the NOX menu). macOS asks you to confirm the change.
+Links clicked in other apps then open as a new tab in the existing NOX window. This works when NOX is installed in
+`/Applications`.
 
 ### Language
 

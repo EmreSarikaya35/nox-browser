@@ -37,6 +37,23 @@ final class WorkspaceList: ObservableObject {
     }
 }
 
+/// Varsayılan tarayıcı. Değişikliği macOS kendi onay penceresiyle kullanıcıya sorar.
+@MainActor
+enum DefaultBrowser {
+    static var isDefault: Bool {
+        NSWorkspace.shared.urlForApplication(toOpen: URL(string: "https://example.com")!)?.standardizedFileURL == Bundle.main.bundleURL.standardizedFileURL
+    }
+
+    static func makeDefault(completion: (() -> Void)? = nil) {
+        // http için sorulan onay https'i de kapsar.
+        NSWorkspace.shared.setDefaultApplication(at: Bundle.main.bundleURL, toOpenURLsWithScheme: "http") { _ in
+            NSWorkspace.shared.setDefaultApplication(at: Bundle.main.bundleURL, toOpenURLsWithScheme: "https") { _ in
+                DispatchQueue.main.async { completion?() }
+            }
+        }
+    }
+}
+
 extension Notification.Name {
     static let noxRulesChanged = Notification.Name("noxRulesChanged")       // reklam kuralları değişti
     static let noxDownloadStarted = Notification.Name("noxDownloadStarted") // object: indirmeyi başlatan WKWebView

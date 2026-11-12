@@ -7,7 +7,7 @@ options:
 settings:
   base:
     SWIFT_VERSION: "5.0"
-    MARKETING_VERSION: "0.8.0"
+    MARKETING_VERSION: "0.9.0"
     CURRENT_PROJECT_VERSION: "1"
     CODE_SIGN_STYLE: Automatic
     CODE_SIGN_IDENTITY: "-"
@@ -20,6 +20,18 @@ targets:
       - path: SpiritQuest # gömülü oyun; klasör olduğu gibi Resources/SpiritQuest'e kopyalanır
         type: folder
         buildPhase: resources
+    info:
+      path: NOX/Info.plist
+      properties:
+        # http/https bağlantılarını açabildiğini bildirir: Sistem Ayarları'nda varsayılan tarayıcı olarak seçilebilir.
+        CFBundleURLTypes:
+          - CFBundleURLName: Web site URL
+            CFBundleTypeRole: Viewer
+            CFBundleURLSchemes: [http, https]
+        CFBundleDocumentTypes:
+          - CFBundleTypeName: HTML document
+            CFBundleTypeRole: Viewer
+            LSItemContentTypes: [public.html, public.xhtml]
     entitlements:
       path: NOX/NOX.entitlements
       properties:

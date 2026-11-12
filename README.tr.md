@@ -5,7 +5,7 @@
 macOS için WebKit tabanlı, hafif, siyah-gümüş-mor temalı yerel tarayıcı (Swift + SwiftUI + WKWebView).
 Hedef: macOS 14.0+ (Intel ve Apple Silicon, universal).
 
-## Durum (v0.8)
+## Durum (v0.9)
 
 Çalışan ve sınanmış:
 
@@ -171,6 +171,13 @@ Sınırlar:
 - Kodda kaynak metinler Türkçedir; İngilizce karşılıkları `NOX/en.lproj/Localizable.strings` dosyasındadır. Yeni bir
   metin eklerken bu dosyaya İngilizcesini de ekleyin; eklenmezse İngilizce arayüzde Türkçe görünür.
 - Gömülü Spirit Quest oyunu yalnızca Türkçedir.
+
+### Varsayılan tarayıcı (v0.9)
+
+- Ayarlar → Genel → Varsayılan tarayıcı → Varsayılan Yap… (NOX menüsünde de var). macOS değişikliği kendi onay
+  penceresiyle sorar.
+- Başka uygulamalarda tıklanan bağlantılar açık NOX penceresinde yeni sekme olarak açılır. NOX `/Applications`
+  içinde kuruluyken çalışır.
 
 ### Bu sürümde olmayanlar
 

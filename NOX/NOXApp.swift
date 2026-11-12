@@ -11,6 +11,7 @@ struct NOXApp: App {
         WindowGroup {
             WindowRoot()
         }
+        .handlesExternalEvents(matching: ["*"]) // hiç pencere yokken gelen bağlantı için pencere açılır
         .windowStyle(.hiddenTitleBar)
         .commands { NoxCommands() }
 
@@ -25,6 +26,9 @@ private struct WindowRoot: View {
         BrowserView()
             .environmentObject(tm)
             .focusedSceneObject(tm) // menü komutları öndeki pencerenin sekmelerine uygulanır
+            // Başka uygulamalardan gelen bağlantılar (varsayılan tarayıcı) ve HTML dosyaları yeni sekmede açılır.
+            .onOpenURL { tm.newTab(url: $0) }
+            .handlesExternalEvents(preferring: ["*"], allowing: ["*"]) // açık pencere varsa bağlantı ona gider
             .frame(minWidth: 760, minHeight: 480)
     }
 }
@@ -39,6 +43,7 @@ private struct NoxCommands: Commands {
     var body: some Commands {
         CommandGroup(after: .appInfo) {
             Button("Güncellemeleri Denetle…") { Updater.shared.checkManually() }
+            Button("NOX'u Varsayılan Tarayıcı Yap…") { DefaultBrowser.makeDefault() }.disabled(DefaultBrowser.isDefault)
         }
         // Sistemin "Yeni Pencere" (⌘N) komutu korunur; sekme komutları onun altına eklenir.
         CommandGroup(after: .newItem) {
