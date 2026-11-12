@@ -37,11 +37,12 @@ final class PrivacyManager: ObservableObject {
 
 /// "Kapatırken tarama verilerini temizle" açıksa, temizlik bitene kadar çıkışı bekletir.
 final class AppDelegate: NSObject, NSApplicationDelegate {
-    @MainActor static weak var tabManager: TabManager?
     private var startupSound: NSSound?
 
     /// Açılış sesi (NOX/Resources/startup.mp3, 2 sn). Birim testleri uygulamayı başlattığında çalmaz.
+    @MainActor
     func applicationDidFinishLaunching(_ notification: Notification) {
+        _ = PowerMonitor.shared // güç kaynağı değişimini izlemeye başla
         guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil,
               let url = Bundle.main.url(forResource: "startup", withExtension: "mp3") else { return }
         startupSound = NSSound(contentsOf: url, byReference: true)
@@ -50,8 +51,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     @MainActor
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
-        guard UserDefaults.standard.bool(forKey: "clearOnQuit"), let tm = Self.tabManager else { return .terminateNow }
-        tm.clearBrowsingData { sender.reply(toApplicationShouldTerminate: true) }
+        guard UserDefaults.standard.bool(forKey: "clearOnQuit") else { return .terminateNow }
+        TabManager.clearBrowsingData { sender.reply(toApplicationShouldTerminate: true) }
         // WebKit yanıt vermezse uygulama asılı kalmasın.
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) { sender.reply(toApplicationShouldTerminate: true) }
         return .terminateLater

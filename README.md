@@ -3,7 +3,7 @@
 macOS için WebKit tabanlı, hafif, siyah-gümüş-mor temalı yerel tarayıcı (Swift + SwiftUI + WKWebView).
 Hedef: macOS 14.0+ (Intel ve Apple Silicon, universal).
 
-## Durum (v0.6)
+## Durum (v0.7)
 
 Çalışan ve sınanmış:
 
@@ -64,7 +64,6 @@ Sınırlar:
 - Web sayfalarının kendi animasyonlarına ve medya yüklemelerine müdahale edilmez (siteleri bozmamak için).
 - Sekme → süreç eşlemesi WebKit'in özel `_webProcessIdentifier` özelliğini kullanır; kaldırılırsa sekme satırları boş kalır.
 - WebKit'in paylaşılan ağ ve GPU süreçleri panelde yok; Safari ile karşılaştırmalı bir pil ölçümü yapılmadı.
-- Pildeyken otomatik pil tasarrufu yok; elle açılır.
 
 ### İndirme yöneticisi ve medya indirme (v0.4)
 
@@ -86,7 +85,7 @@ Araç çubuğundaki indirme düğmesi (⌥⌘L) paneli açar; etkin indirme say�
 Desteklenmeyenler — bunlar listede nedeniyle birlikte görünür, indirme düğmesi gösterilmez:
 
 - **YouTube, Netflix, Spotify ve benzeri** akış tabanlı (MSE/`blob:`) veya DRM korumalı oynatıcılar. Korumalar aşılmaz.
-- **HLS/DASH akışları** (`.m3u8`, `.mpd`): parçaları birleştirmek ayrı bir bileşen gerektirir, bu sürümde yok.
+- **DASH akışları** (`.mpd`) ile şifreli veya canlı HLS akışları.
 - Başka siteden gömülen (iframe) oynatıcılardaki medya tespit edilmez.
 - Duraklatılmış indirmeler uygulama kapanınca kaybolur; yarım dosya indirme klasöründe kalır.
 - Sunucu aralık isteğini desteklemiyorsa duraklatılan indirme devam ettirilemez.
@@ -122,6 +121,46 @@ Başlangıç sayfasındaki "Spirit Quest: The Forgotten Shrine" düğmesi veya G
   da siler; gizli sekmede kayıt kalıcı olmaz.
 - Oyunun kendi belgeleri, kontrolleri ve test durumu: [SpiritQuest/README.md](SpiritQuest/README.md).
 
+### Sekmeler, pencereler ve görünüm (v0.7)
+
+- **Sekme simgeleri (favicon):** sekmelerde, yer imleri çubuğunda ve başlangıç sayfasında. Alan adına göre önbelleklenir;
+  gizli sekmelerin simgeleri diske yazılmaz, "tarama verilerini temizle" önbelleği de siler.
+- **Sürükleyip sıralama ve sabitleme:** sekmeler fareyle taşınır. Sabitlenen sekme başa geçer ve yalnızca simgesiyle
+  görünür (sekmeye sağ tık → Sekmeyi Sabitle).
+- **Çalışma alanları:** "İş", "Okul" gibi ayrı sekme setleri. Ayarlar → Genel'den eklenir ve silinir; ikinci bir alan
+  eklenince sekme çubuğunun solunda alan değiştirici belirir. Sekme sağ tıkla başka alana taşınır. Alanlar ve
+  sabitlemeler oturumla birlikte kaydedilir.
+- **Dikey sekmeler:** Görünüm → Dikey Sekmeler; sekmeler pencerenin solunda liste olur.
+- **Bölünmüş görünüm (⌃⌘S):** iki sekme yan yana. Adres çubuğu ve araçlar soldaki sekmeye aittir; sağ bölmenin
+  başlığındaki düğmeyle bölmeler yer değiştirir.
+- **Çoklu pencere (⌘N):** her pencerenin kendi sekmeleri vardır; geçmiş, yer imleri, indirmeler ve parolalar ortaktır.
+- **Komut paleti (⌘K):** tek kutudan komut çalıştırma, açık sekmeye geçme, yer imi ve geçmişte arama.
+- **Web sayfalarını karart (⇧⌘K):** açık zeminli siteleri koyulaştırır; kendi koyu teması olan sitelere dokunmaz.
+  Varsayılan kapalıdır.
+- **Resim içinde resim (⌥⌘P):** sayfadaki videoyu küçük, hep üstte duran pencereye alır.
+- **İçe aktarma:** Ayarlar → Genel. Yer imleri için Safari/Chrome/Firefox'un dışa aktardığı HTML dosyası, parolalar
+  için CSV dosyası (parolalar Anahtar Zinciri'ne yazılır).
+- **HLS indirme:** korumasız `.m3u8` akışları indirmeler panelinde listelenir; en yüksek kalite seçilir ve parçalar
+  tek dosyada birleştirilir.
+- **Otomatik güncelleme:** günde bir kez GitHub Releases'e bakar. Uygulama `/Applications` içindeyse yeni sürümü indirip
+  yerine kurar ve sekme çubuğunda "Yeniden Başlat" düğmesi gösterir; değilse "Güncelle" düğmesi indirme sayfasını açar.
+  NOX menüsü → Güncellemeleri Denetle… ile elle de bakılır. Ayarlar'dan kapatılabilir.
+- **Pildeyken otomatik pil tasarrufu:** pil/performans panelindeki ayar. Varsayılan kapalıdır; açılırsa şarjdan
+  çıkınca pil tasarrufu açılır, şarja takılınca kapanır.
+
+Sınırlar:
+
+- Yalnızca ilk pencerenin oturumu kaydedilir; diğer pencerelerin sekmeleri yeniden açılışta geri gelmez.
+- Web karartma, renkleri ters çevirerek çalışır: logo gibi koyu renkli görseller görünmez olabilir, bazı sitelerde
+  renkler tuhaflaşır. Böyle sitelerde kapatın.
+- HLS: şifreli (AES/DRM) akışlar ve canlı yayınlar indirilmez. MPEG-TS akışları `.ts` olarak kaydedilir (VLC veya
+  IINA oynatır, QuickTime oynatmaz); sayfanın çerezleri kullanılmadığı için oturum gerektiren akışlar başarısız olur.
+  HLS indirmesi duraklatılamaz, yalnızca iptal edilir.
+- Resim içinde resim WebKit'in özel bir tercihiyle açılır; Apple bu tercihi kaldırırsa çalışmaz.
+- Otomatik güncelleme, paketin GitHub'daki bu depodan geldiğini ve paket kimliği ile sürümünü denetler; uygulama
+  Developer ID ile imzalı olmadığı için kriptografik imza doğrulaması yoktur.
+- Bölünmüş görünümde sağ bölmenin kendi adres çubuğu yoktur.
+
 ### Bu sürümde olmayanlar
 
 Teknik nedenle yapılmayan veya ertelenenler:
@@ -131,10 +170,9 @@ Teknik nedenle yapılmayan veya ertelenenler:
 - **Konum izni:** desteklenmiyor; siteler konum alamaz.
 - **Eklenti sistemi:** Chrome eklentileri WebKit'te çalışmaz. Apple'ın WKWebView için Safari Web Extension
   desteği (`WKWebExtension`) hedeflenen macOS 14'ten daha yeni bir sürüm gerektirdiği için eklenmedi.
-- **Otomatik güncelleme:** yok. Bir sürüm sunucusu olduğunda Sparkle (MIT lisanslı) eklenebilir.
 - **Üçüncü taraf çerez anahtarı:** WKWebView'da herkese açık bir ayarı yok; WebKit'in yerleşik izleme önlemesi geçerli.
-- **YouTube video içi reklamları, HLS/DASH indirme:** yukarıdaki bölümlerde açıklandı.
-- Sekme simgeleri (favicon), çoklu pencere, pildeyken otomatik pil tasarrufu.
+- **YouTube video içi reklamları, DASH indirme:** yukarıdaki bölümlerde açıklandı.
+- Okuma modu, gizlilik raporu.
 
 Pil ömrü için rakamsal bir iddia yok; ölçüm için performans panelini veya Etkinlik Monitörü → Enerji sekmesini kullanın.
 
@@ -161,7 +199,8 @@ open build/Build/Products/Debug/NOX.app
 xcodebuild -project NOX.xcodeproj -scheme NOX -derivedDataPath build test
 ```
 
-- Birim testleri: `NOXTests/` (adres çözümleme, filtre dönüştürücü, süreç ölçümü, indirme adları, medya ayrıştırma, Anahtar Zinciri).
+- Birim testleri: `NOXTests/` (adres çözümleme, filtre dönüştürücü, süreç ölçümü, indirme adları, medya ayrıştırma,
+  Anahtar Zinciri, içe aktarma, HLS ayrıştırma ve indirme, sürüm karşılaştırma).
 - Filtre listesi indirme/derleme hataları panelde ve Console'da `NOX AdBlock` önekiyle görünür.
 - Web içeriğini incelemek için Debug derlemesinde Safari → Develop menüsü kullanılabilir
   (gerekirse `Tab.makeWebView` içinde `w.isInspectable = true`).
@@ -193,13 +232,17 @@ taşındığında Gatekeeper uyarır (sağ tık → Aç ile açılabilir). Uyar�
 | Dosya | Sorumluluk |
 |---|---|
 | `NOX/Tab.swift` | Tek sekme: WKWebView yaşam döngüsü, gezinme/UI delegeleri, bul, yakınlaştırma |
-| `NOX/TabManager.swift` | Sekme listesi, gizli mod deposu, oturum kaydı, yer imi/geçmiş bağlantısı |
+| `NOX/TabManager.swift` | Bir pencerenin sekmeleri: çalışma alanları, sabitleme, bölünmüş görünüm, oturum kaydı |
 | `NOX/AdBlockConverter.swift` | Adblock Plus sözdizimi → WebKit içerik engelleyici kuralları |
 | `NOX/AdBlockEngine.swift` | Filtre listelerini indirme/derleme/güncelleme, beyaz liste, sayaç |
 | `NOX/AdBlockPanel.swift` | Reklam engelleyici kontrol paneli |
 | `NOX/DownloadManager.swift` | WKDownload tabanlı indirmeler, duraklat/devam, geçmiş, güvenli dosya adları |
 | `NOX/MediaDetector.swift` | Sayfadaki indirilebilir medya kaynaklarının tespiti |
 | `NOX/DownloadsPanel.swift` | İndirmeler ve sayfa medyası paneli |
+| `NOX/Services.swift` | Pencereler arası paylaşılan servisler, favicon önbelleği, güç izleme, güncelleme denetimi |
+| `NOX/CommandPalette.swift` | Komut paleti |
+| `NOX/Importer.swift` | Yer imi (HTML) ve parola (CSV) içe aktarma |
+| `NOX/HLS.swift` | HLS çalma listesi ayrıştırma ve indirme |
 | `NOX/GameSchemeHandler.swift` | Gömülü oyunu `nox://game/` adresinden sunar |
 | `NOX/PrivacyManager.swift` | Site bazında kamera/mikrofon izinleri, kapanışta temizleme |
 | `NOX/PasswordManager.swift` | Anahtar Zinciri'nde parola saklama |

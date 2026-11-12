@@ -32,8 +32,9 @@ final class DownloadTests: XCTestCase {
             ["url": "https://example.com/live/master.m3u8", "kind": "video", "type": "application/x-mpegurl", "w": 0, "h": 0],
             ["url": "data:video/mp4;base64,AAAA", "kind": "video", "type": "", "w": 0, "h": 0],
         ])
-        XCTAssertEqual(m.map(\.label), ["Video · 1280×720 · MP4", "Video · 480p · WEBM", "Video · OGG", "Ses · MP3", "Video · 1920×1080", "Video · M3U8"])
-        XCTAssertEqual(m.map { $0.url != nil }, [true, true, true, true, false, false]) // desteklenmeyenlerde indirme adresi yok
-        XCTAssertEqual(m.map { $0.unsupportedReason != nil }, [false, false, false, false, true, true])
+        XCTAssertEqual(m.map(\.label), ["Video · 1280×720 · MP4", "Video · 480p · WEBM", "Video · OGG", "Ses · MP3", "Video · 1920×1080", "Video · M3U8 · HLS akışı"])
+        XCTAssertEqual(m.map { $0.url != nil }, [true, true, true, true, false, true]) // desteklenmeyenlerde indirme adresi yok
+        XCTAssertEqual(m.map { $0.unsupportedReason != nil }, [false, false, false, false, true, false])
+        XCTAssertEqual(m.map(\.isHLS), [false, false, false, false, false, true])
     }
 }

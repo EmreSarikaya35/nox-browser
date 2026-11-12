@@ -22,7 +22,7 @@ struct DownloadsPanel: View {
                 }
                 .frame(height: min(150, CGFloat(media.count) * 36))
             }
-            Text("Yalnızca doğrudan dosya olarak sunulan medya indirilebilir. DRM korumalı içerik ve akış tabanlı oynatıcılar (YouTube, Netflix vb.) desteklenmez.")
+            Text("Yalnızca doğrudan dosya olarak sunulan medya indirilebilir. Korumasız HLS akışları da indirilir. DRM korumalı içerik ve akış tabanlı oynatıcılar (YouTube, Netflix vb.) desteklenmez.")
                 .font(.caption2).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
             Divider()
             HStack {
@@ -56,7 +56,7 @@ struct DownloadsPanel: View {
             media = await tab.detectMedia()
             scanned = true
             for i in media.indices {
-                if let url = media[i].url { media[i].size = await DownloadManager.size(of: url, referer: tab.url) }
+                if let url = media[i].url, !media[i].isHLS { media[i].size = await DownloadManager.size(of: url, referer: tab.url) }
             }
         }
     }
@@ -72,7 +72,8 @@ struct DownloadsPanel: View {
             // Desteklenmeyen kaynakta indirme düğmesi gösterilmez.
             if let url = m.url, let webView = tab.webView {
                 NoxIconButton(symbol: "arrow.down.circle", help: "İndir", tint: .noxNeon) {
-                    manager.start(url, referer: tab.url, from: webView, isPrivate: tab.isPrivate)
+                    if m.isHLS { manager.startHLS(url, referer: tab.url, from: webView, isPrivate: tab.isPrivate) }
+                    else { manager.start(url, referer: tab.url, from: webView, isPrivate: tab.isPrivate) }
                 }
             }
         }
@@ -91,7 +92,7 @@ private struct DownloadRow: View {
                 Spacer(minLength: 4)
                 switch item.state {
                 case .downloading:
-                    NoxIconButton(symbol: "pause.fill", help: "Duraklat") { manager.pause(item) }
+                    if !item.isStream { NoxIconButton(symbol: "pause.fill", help: "Duraklat") { manager.pause(item) } }
                     NoxIconButton(symbol: "xmark", help: "İptal Et") { manager.cancel(item) }
                 case .paused:
                     NoxIconButton(symbol: "play.fill", help: "Devam Et", disabled: !item.canResume) { manager.resume(item) }

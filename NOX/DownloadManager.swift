@@ -21,7 +21,11 @@ final class DownloadItem: ObservableObject, Identifiable {
     fileprivate weak var webView: WKWebView?
     fileprivate var progressSub: AnyCancellable?
 
+    fileprivate var task: Task<Void, Never>? // HLS indirmesi
+
     var canResume: Bool { resumeData != nil }
+    /// HLS akışı: parça parça indirilir, duraklatılamaz (yalnızca iptal).
+    var isStream: Bool { task != nil }
 
     fileprivate init(source: URL?, isPrivate: Bool, filename: String, state: State = .downloading, date: Date = Date()) {
         self.source = source; self.isPrivate = isPrivate; self.filename = filename; self.state = state; self.date = date
@@ -34,7 +38,6 @@ final class DownloadItem: ObservableObject, Identifiable {
 final class DownloadManager: NSObject, ObservableObject, WKDownloadDelegate {
     @Published private(set) var items: [DownloadItem] = []
     @Published var folder: URL { didSet { UserDefaults.standard.set(folder.path, forKey: "downloadFolder") } }
-    var onStart: (() -> Void)?
 
     private var byDownload: [ObjectIdentifier: DownloadItem] = [:]
     private lazy var helper = WKWebView() // kaynak sekme kapanmışsa devam ettirmek için; sayfa yüklemez
@@ -71,6 +74,31 @@ final class DownloadManager: NSObject, ObservableObject, WKDownloadDelegate {
         Task { adopt(await webView.startDownload(using: request), from: webView, isPrivate: isPrivate) }
     }
 
+    /// Korumasız bir HLS akışını (.m3u8) indirir: en yüksek kaliteyi seçer, parçaları sırayla tek dosyaya yazar.
+    /// Şifreli (AES/DRM) akışlar ve canlı yayınlar reddedilir.
+    // shortcut: parçalar yeniden paketlenmez; MPEG-TS akışları .ts olarak kalır (VLC/IINA oynatır, QuickTime oynatmaz).
+    // shortcut: sayfanın çerezleri kullanılmaz; oturum gerektiren akışlar başarısız olur.
+    func startHLS(_ url: URL, referer: URL?, from webView: WKWebView, isPrivate: Bool) {
+        let item = DownloadItem(source: url, isPrivate: isPrivate, filename: Self.safeName(url.deletingPathExtension().lastPathComponent))
+        item.task = Task {
+            do {
+                _ = try await HLSPlaylist.download(url, referer: referer, to: folder, name: item.filename,
+                                                   started: { item.destination = $0; item.filename = $0.lastPathComponent },
+                                                   progress: { item.received = $0; item.total = $1 })
+                complete(item)
+            } catch is CancellationError {
+            } catch {
+                guard item.state == .downloading else { return } // iptal edildi
+                if let dest = item.destination { try? FileManager.default.removeItem(at: dest) }
+                item.state = .failed(error.localizedDescription)
+                save()
+            }
+        }
+        items.insert(item, at: 0)
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, _ in }
+        NotificationCenter.default.post(name: .noxDownloadStarted, object: webView)
+    }
+
     /// Gezinmenin dönüştüğü indirmeyi devralır.
     func adopt(_ download: WKDownload, from webView: WKWebView, isPrivate: Bool) {
         let url = download.originalRequest?.url
@@ -79,7 +107,7 @@ final class DownloadManager: NSObject, ObservableObject, WKDownloadDelegate {
         attach(download, to: item)
         items.insert(item, at: 0)
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, _ in } // sistem yalnızca ilk seferde sorar
-        onStart?()
+        NotificationCenter.default.post(name: .noxDownloadStarted, object: webView)
     }
 
     private func attach(_ download: WKDownload, to item: DownloadItem) {
@@ -128,6 +156,7 @@ final class DownloadManager: NSObject, ObservableObject, WKDownloadDelegate {
     }
 
     func cancel(_ item: DownloadItem) {
+        item.task?.cancel()
         if let d = detach(item) { Task { _ = await d.cancel() } }
         item.resumeData = nil
         item.state = .cancelled
@@ -176,6 +205,10 @@ final class DownloadManager: NSObject, ObservableObject, WKDownloadDelegate {
     func downloadDidFinish(_ download: WKDownload) {
         guard let item = byDownload[ObjectIdentifier(download)] else { return }
         _ = detach(item)
+        complete(item)
+    }
+
+    private func complete(_ item: DownloadItem) {
         let size = item.destination.flatMap { try? $0.resourceValues(forKeys: [.fileSizeKey]).fileSize }.map(Int64.init)
         item.received = size ?? item.received
         item.total = item.received

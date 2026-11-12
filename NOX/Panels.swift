@@ -37,8 +37,14 @@ struct StartPage: View {
                     ForEach(bookmarks.items.prefix(8)) { site in
                         Button { tm.open(site.url.absoluteString) } label: {
                             VStack(spacing: 6) {
-                                Text(String((site.url.host ?? site.title).replacingOccurrences(of: "www.", with: "").prefix(1)).uppercased())
-                                    .font(.system(size: 20, weight: .semibold)).foregroundStyle(Color.noxNeon)
+                                Group {
+                                    if let icon = Favicons.cached(site.url.host) {
+                                        Image(nsImage: icon).resizable().interpolation(.high).frame(width: 24, height: 24)
+                                    } else {
+                                        Text(String((site.url.host ?? site.title).replacingOccurrences(of: "www.", with: "").prefix(1)).uppercased())
+                                            .font(.system(size: 20, weight: .semibold)).foregroundStyle(Color.noxNeon)
+                                    }
+                                }
                                     .frame(width: 48, height: 48)
                                     .background(RoundedRectangle(cornerRadius: 12).fill(Color.noxPanel))
                                     .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.noxSilver.opacity(0.25), lineWidth: 1))
@@ -72,7 +78,12 @@ struct BookmarksBar: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 2) {
                 ForEach(bookmarks.items) { site in
-                    Button(site.title) { tm.open(site.url.absoluteString) }
+                    Button { tm.open(site.url.absoluteString) } label: {
+                        HStack(spacing: 4) {
+                            if let icon = Favicons.cached(site.url.host) { Image(nsImage: icon).resizable().interpolation(.high).frame(width: 12, height: 12) }
+                            Text(site.title)
+                        }
+                    }
                         .buttonStyle(.plain).font(.system(size: 11)).lineLimit(1)
                         .foregroundStyle(Color.noxSilver)
                         .padding(.horizontal, 8).padding(.vertical, 4).frame(maxWidth: 160)

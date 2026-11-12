@@ -32,7 +32,6 @@ final class AdBlockEngine: ObservableObject {
 
     /// Etkin kural kümesi her değiştiğinde artar; sekmeler bununla kendi kurallarını tazeler.
     private(set) var revision = 0
-    var onRulesChanged: (() -> Void)?
 
     private var compiled: [String: WKContentRuleList] = [:]
     private let store = WKContentRuleListStore.default()!
@@ -157,7 +156,7 @@ final class AdBlockEngine: ObservableObject {
 
     private func changed() {
         revision += 1
-        onRulesChanged?()
+        NotificationCenter.default.post(name: .noxRulesChanged, object: nil)
     }
 
     private static func normalize(_ host: String?) -> String {

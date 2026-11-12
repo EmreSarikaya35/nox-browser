@@ -19,6 +19,9 @@ final class Tab: NSObject, ObservableObject, Identifiable, WKNavigationDelegate,
     var onVisit: ((String, URL) -> Void)?
 
     @Published private(set) var blockedCount = 0
+    @Published private(set) var favicon: NSImage?
+    @Published var isPinned = false
+    var workspace = TabManager.defaultWorkspace
 
     private let dataStore: WKWebsiteDataStore
     private let adBlock: AdBlockEngine
@@ -44,6 +47,7 @@ final class Tab: NSObject, ObservableObject, Identifiable, WKNavigationDelegate,
             pendingURL = url
             self.url = url
             title = url.host ?? url.absoluteString
+            favicon = Favicons.cached(url.host)
         }
     }
 
@@ -123,9 +127,61 @@ final class Tab: NSObject, ObservableObject, Identifiable, WKNavigationDelegate,
         subs.removeAll()
         webView = nil
         savedState = nil; pendingURL = nil
-        appliedRules = nil; blockedCount = 0
+        appliedRules = nil; blockedCount = 0; favicon = nil
         url = nil; error = nil; title = "Yeni Sekme"
         isLoading = false; canGoBack = false; canGoForward = false
+    }
+
+    // MARK: Web sayfalarını karartma ve resim içinde resim
+
+    /// Açık zeminli sayfaları ters çevirerek karartır; görseller ve videolar yeniden çevrilip doğal renginde kalır.
+    /// Kendi koyu teması olan (zemini zaten koyu) sayfalara dokunmaz. Sayfanın betiklerinden yalıtılmış dünyada çalışır.
+    private static let darkJS = """
+    (() => {
+      if (location.protocol === 'nox:') return;
+      const root = document.documentElement;
+      if (!document.getElementById('nox-dark-style')) {
+        const s = document.createElement('style');
+        s.id = 'nox-dark-style';
+        const flip = 'filter:invert(1) hue-rotate(180deg)!important';
+        s.textContent = `html.nox-dark{${flip};background:#fff!important}` +
+          `html.nox-dark :is(img,video,picture,canvas,iframe,embed,object,svg image,[style*="background-image"]){${flip}}`;
+        root.appendChild(s);
+      }
+      const lum = el => {
+        const m = el && getComputedStyle(el).backgroundColor.match(/[\\d.]+/g);
+        if (!m || (m.length > 3 && +m[3] === 0)) return null; // saydam
+        return (0.2126 * m[0] + 0.7152 * m[1] + 0.0722 * m[2]) / 255;
+      };
+      root.classList.remove('nox-dark');
+      root.classList.toggle('nox-dark', (lum(document.body) ?? lum(root) ?? 1) > 0.5);
+    })()
+    """
+    private static let darkScript = WKUserScript(source: darkJS, injectionTime: .atDocumentEnd, forMainFrameOnly: true, in: .defaultClient)
+
+    /// "Web sayfalarını karart" ayarı değişince açık sekmeye hemen uygular.
+    func refreshDarkMode() {
+        guard let webView else { return }
+        let on = UserDefaults.standard.bool(forKey: "darkWeb"), controller = webView.configuration.userContentController
+        controller.removeAllUserScripts()
+        if on { controller.addUserScript(Self.darkScript) }
+        webView.evaluateJavaScript(on ? Self.darkJS : "document.documentElement.classList.remove('nox-dark')", in: nil, in: .defaultClient)
+    }
+
+    /// Oynayan (yoksa en büyük) videoyu resim içinde resim penceresine alır ya da geri getirir. Video yoksa uyarı sesi verir.
+    func togglePiP() {
+        let js = """
+        (() => {
+          if (document.pictureInPictureElement) { document.exitPictureInPicture(); return true; }
+          const vs = [...document.querySelectorAll('video')];
+          const v = vs.find(v => !v.paused) || vs.sort((a, b) => b.videoWidth * b.videoHeight - a.videoWidth * a.videoHeight)[0];
+          if (!v || !v.requestPictureInPicture) return false;
+          v.requestPictureInPicture().catch(() => {});
+          return true;
+        })()
+        """
+        guard let webView else { NSSound.beep(); return }
+        webView.evaluateJavaScript(js) { result, _ in if result as? Bool != true { NSSound.beep() } }
     }
 
     /// `factor` nil ise yakınlaştırmayı sıfırlar.
@@ -148,9 +204,14 @@ final class Tab: NSObject, ObservableObject, Identifiable, WKNavigationDelegate,
         c.applicationNameForUserAgent = "Version/17.5 Safari/605.1.15" // siteler Safari gibi davransın
         c.preferences.javaScriptCanOpenWindowsAutomatically = false // kullanıcı tıklaması olmayan pop-up'ları engelle
         c.preferences.isElementFullscreenEnabled = true
+        // shortcut: WKWebView'da resim içinde resim yalnızca WebKit'in özel tercihiyle açılır; tercih kaldırılırsa PiP çalışmaz.
+        if c.preferences.responds(to: Selector(("_setAllowsPictureInPictureMediaPlayback:"))) {
+            c.preferences.setValue(true, forKey: "allowsPictureInPictureMediaPlayback")
+        }
         c.setURLSchemeHandler(GameSchemeHandler(), forURLScheme: GameSchemeHandler.scheme) // gömülü oyun: nox://game/
         c.userContentController.add(GameMessageProxy { [weak self] in self?.reset() }, name: "spiritQuest")
         if UserDefaults.standard.bool(forKey: "blockAutoplay") { c.mediaTypesRequiringUserActionForPlayback = .all }
+        if UserDefaults.standard.bool(forKey: "darkWeb") { c.userContentController.addUserScript(Self.darkScript) }
         let w = WKWebView(frame: .zero, configuration: c)
         w.navigationDelegate = self
         w.uiDelegate = self
@@ -227,6 +288,10 @@ final class Tab: NSObject, ObservableObject, Identifiable, WKNavigationDelegate,
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         if !isPrivate, let u = webView.url { onVisit?(webView.title ?? "", u) }
+        Task {
+            let declared = try? await webView.evaluateJavaScript("(document.querySelector('link[rel~=\"icon\"]') || {}).href || ''") as? String
+            favicon = await Favicons.load(page: webView.url, declared: declared, persist: !isPrivate)
+        }
     }
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) { show(error) }

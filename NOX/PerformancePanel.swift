@@ -5,12 +5,15 @@ struct PerformancePanel: View {
     @StateObject private var monitor = PerformanceMonitor()
     @AppStorage("batterySaver") private var batterySaver = false
     @AppStorage("blockAutoplay") private var blockAutoplay = false
+    @AppStorage("autoBatterySaver") private var autoBatterySaver = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Toggle("Pil tasarrufu modu", isOn: $batterySaver).font(.headline)
             Text("Arka plan sekmeleri 30 dk yerine 5 dk sonra uyutulur; arayüz animasyonları ve cam efekti kapatılır.")
                 .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+            Toggle("Pildeyken pil tasarrufunu otomatik aç", isOn: $autoBatterySaver)
+            Text("Şarjdan çıkınca açılır, şarja takılınca kapanır.").font(.caption).foregroundStyle(.secondary)
             Toggle("Videoların otomatik oynatılmasını engelle", isOn: $blockAutoplay)
             Text("Yeni açılan veya uyandırılan sekmelerde geçerli olur.").font(.caption).foregroundStyle(.secondary)
             Divider()
@@ -35,7 +38,7 @@ struct PerformancePanel: View {
         .frame(width: 420)
         .background(Color.noxPanel)
         .preferredColorScheme(.dark)
-        .onChange(of: batterySaver) { tm.rescheduleSleep() }
+        .onChange(of: autoBatterySaver) { PowerMonitor.shared.update() }
         .task { // panel kapanınca görev iptal olur, ölçüm durur
             while !Task.isCancelled {
                 monitor.refresh(tabs: tm.tabs)

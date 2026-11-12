@@ -29,6 +29,17 @@ final class SiteStore: ObservableObject {
         save()
     }
 
+    /// İçe aktarma: var olan adresleri atlar, dosyayı bir kez yazar. Eklenen sayısını döndürür.
+    func addMany(_ new: [(title: String, url: URL)]) -> Int {
+        var known = Set(items.map(\.url)), added = 0
+        for n in new where items.count < limit && known.insert(n.url).inserted {
+            items.append(Site(title: n.title, url: n.url))
+            added += 1
+        }
+        save()
+        return added
+    }
+
     func remove(_ url: URL) { items.removeAll { $0.url == url }; save() }
     func clear() { items = []; save() }
     func contains(_ url: URL?) -> Bool { items.contains { $0.url == url } }

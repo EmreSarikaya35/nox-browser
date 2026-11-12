@@ -6,6 +6,7 @@ struct MediaCandidate: Identifiable {
     let name: String
     let label: String          // "Video · 1280×720 · MP4"
     let unsupportedReason: String?
+    var isHLS = false
     var size: Int64?
 }
 
@@ -22,7 +23,7 @@ enum MediaDetector {
         m.querySelectorAll('source').forEach(s =>
           add(s.src, kind, s.type, 0, +((s.getAttribute('res') || s.getAttribute('size') || s.getAttribute('label') || '').replace(/\\D/g, '')) || 0));
       });
-      const ext = /\\.(mp4|m4v|mov|webm|mkv|mp3|m4a|aac|ogg|oga|opus|wav|flac)([?#]|$)/i;
+      const ext = /\\.(mp4|m4v|mov|webm|mkv|m3u8|mp3|m4a|aac|ogg|oga|opus|wav|flac)([?#]|$)/i;
       document.querySelectorAll('a[href]').forEach(a => { if (ext.test(a.href)) add(a.href, 'link', '', 0, 0); });
       return out;
     })()
@@ -44,8 +45,8 @@ enum MediaDetector {
             var reason: String?
             if scheme == "blob" || scheme == "mediasource" {
                 reason = "Akış tabanlı veya korumalı oynatıcı — indirilemez"
-            } else if ["m3u8", "mpd"].contains(ext) || type.contains("mpegurl") || type.contains("dash") {
-                reason = "HLS/DASH akışı — desteklenmiyor"
+            } else if ext == "mpd" || type.contains("dash") {
+                reason = "DASH akışı — desteklenmiyor"
             } else if scheme != "http" && scheme != "https" { continue }
 
             let kind = d["kind"] as? String
@@ -57,8 +58,10 @@ enum MediaDetector {
             if !format.isEmpty { parts.append(format.uppercased()) }
 
             let name = url.map { $0.lastPathComponent.isEmpty ? ($0.host ?? s) : $0.lastPathComponent } ?? "Gömülü oynatıcı"
+            let isHLS = reason == nil && (ext == "m3u8" || type.contains("mpegurl"))
+            if isHLS { parts.append("HLS akışı") }
             out.append(MediaCandidate(url: reason == nil ? url : nil, name: scheme == "blob" ? "Gömülü oynatıcı" : name,
-                                      label: parts.joined(separator: " · "), unsupportedReason: reason))
+                                      label: parts.joined(separator: " · "), unsupportedReason: reason, isHLS: isHLS))
         }
         return out
     }

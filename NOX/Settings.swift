@@ -1,15 +1,13 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @EnvironmentObject var tm: TabManager
-
     var body: some View {
         TabView {
             GeneralSettings().tabItem { Label("Genel", systemImage: "gearshape") }
-            PrivacySettings(tm: tm, privacy: tm.privacy).tabItem { Label("Gizlilik", systemImage: "hand.raised") }
-            PasswordSettings(passwords: tm.passwords).tabItem { Label("Parolalar", systemImage: "key") }
+            PrivacySettings(privacy: Services.privacy).tabItem { Label("Gizlilik", systemImage: "hand.raised") }
+            PasswordSettings(passwords: Services.passwords).tabItem { Label("Parolalar", systemImage: "key") }
         }
-        .frame(width: 520, height: 360)
+        .frame(width: 560, height: 560)
     }
 }
 
@@ -18,6 +16,12 @@ private struct GeneralSettings: View {
     @AppStorage("homepage") private var homepage = ""
     @AppStorage("restoreSession") private var restoreSession = true
     @AppStorage("startBackground") private var startBackground = ""
+    @AppStorage("verticalTabs") private var verticalTabs = false
+    @AppStorage("darkWeb") private var darkWeb = false
+    @AppStorage("autoUpdateCheck") private var autoUpdateCheck = true
+    @State private var importResult = ""
+    @State private var newWorkspace = ""
+    @ObservedObject private var workspaces = Services.workspaces
 
     var body: some View {
         Form {
@@ -26,6 +30,35 @@ private struct GeneralSettings: View {
             }
             TextField("Ana sayfa", text: $homepage, prompt: Text("Boş bırakılırsa başlangıç sayfası"))
             Toggle("Açılışta önceki oturumu geri yükle", isOn: $restoreSession)
+            Toggle("Dikey sekmeler (sekmeleri solda listele)", isOn: $verticalTabs)
+            Toggle("Web sayfalarını karart (açık zeminli siteleri koyulaştır)", isOn: $darkWeb)
+            Toggle("Güncellemeleri otomatik denetle ve kur", isOn: $autoUpdateCheck)
+            LabeledContent("Çalışma alanları") {
+                VStack(alignment: .trailing, spacing: 4) {
+                    ForEach(workspaces.names.dropFirst(), id: \.self) { name in
+                        HStack {
+                            Text(name)
+                            Button("Sil") { deleteWorkspace(name) }.controlSize(.small)
+                        }
+                    }
+                    HStack {
+                        TextField("Yeni alan adı (ör. İş)", text: $newWorkspace).frame(width: 170).onSubmit(addWorkspace)
+                        Button("Ekle", action: addWorkspace).disabled(newWorkspace.trimmingCharacters(in: .whitespaces).isEmpty)
+                    }
+                    Text("İkinci bir alan eklenince sekme çubuğunda alan değiştirici görünür.")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
+            }
+            LabeledContent("İçe aktar") {
+                VStack(alignment: .trailing, spacing: 4) {
+                    HStack {
+                        Button("Yer İmleri (HTML)…") { importBookmarks() }
+                        Button("Parolalar (CSV)…") { importPasswords() }
+                    }
+                    Text(importResult.isEmpty ? "Safari, Chrome veya Firefox'tan dışa aktarılan dosyayı seçin." : importResult)
+                        .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+                }
+            }
             LabeledContent("Başlangıç sayfası arka planı") {
                 HStack {
                     Text(startBackground.isEmpty ? "Yok" : (startBackground as NSString).lastPathComponent)
@@ -41,10 +74,43 @@ private struct GeneralSettings: View {
         }
         .padding(20)
     }
+
+    private func addWorkspace() {
+        if workspaces.add(newWorkspace) != nil { newWorkspace = "" }
+    }
+
+    private func deleteWorkspace(_ name: String) {
+        let alert = NSAlert()
+        alert.messageText = "“\(name)” alanı silinsin mi?"
+        alert.informativeText = "Bu alandaki bütün sekmeler kapatılır."
+        alert.addButton(withTitle: "Vazgeç")
+        alert.addButton(withTitle: "Sil")
+        if alert.runModal() == .alertSecondButtonReturn { workspaces.remove(name) }
+    }
+
+    private func pick(_ ext: String) -> String? {
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = [ext == "csv" ? .commaSeparatedText : .html]
+        guard panel.runModal() == .OK, let url = panel.url else { return nil }
+        return try? String(contentsOf: url, encoding: .utf8)
+    }
+
+    private func importBookmarks() {
+        guard let html = pick("html") else { return }
+        let found = Importer.bookmarks(fromHTML: html)
+        importResult = found.isEmpty ? "Dosyada yer imi bulunamadı." : "\(Services.bookmarks.addMany(found)) yer imi eklendi (\(found.count) bulundu)."
+    }
+
+    private func importPasswords() {
+        guard let csv = pick("csv") else { return }
+        let found = Importer.passwords(fromCSV: csv)
+        let saved = found.filter { Services.passwords.save(host: $0.host, username: $0.username, password: $0.password) }.count
+        importResult = found.isEmpty ? "Dosyada parola bulunamadı (url, username, password sütunları gerekli)."
+            : "\(saved) parola Anahtar Zinciri'ne kaydedildi. CSV dosyası parolaları açık metin içerir; işiniz bitince silin."
+    }
 }
 
 private struct PrivacySettings: View {
-    let tm: TabManager
     @ObservedObject var privacy: PrivacyManager
     @AppStorage("clearOnQuit") private var clearOnQuit = false
     @State private var cleared = false
@@ -54,7 +120,7 @@ private struct PrivacySettings: View {
             Toggle("Kapatırken geçmişi, çerezleri ve site verilerini temizle", isOn: $clearOnQuit)
             Text("Açıkken oturum (açık sekmeler) de geri yüklenmez.").font(.caption).foregroundStyle(.secondary)
             HStack {
-                Button("Şimdi Temizle") { tm.clearBrowsingData(); cleared = true }
+                Button("Şimdi Temizle") { TabManager.clearBrowsingData(); cleared = true }
                 if cleared { Text("Temizlendi").foregroundStyle(.secondary) }
             }
             Divider()
