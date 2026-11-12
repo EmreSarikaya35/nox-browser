@@ -1,0 +1,536 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		011CC3D48C632DE923AF89A8 /* PerformanceMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB05AB02D9B8937062EDE4F /* PerformanceMonitor.swift */; };
+		12464947C9FBCB10AAA556EB /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CF79228EB3714B27B5737A /* Settings.swift */; };
+		2DBFBE1FF36BAC25FAE1B605 /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBD702995840FC1BC963CFF /* DownloadManager.swift */; };
+		33751AEFDD83753B1FBAAE73 /* URLResolverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9CBAB1C11DAE36E42C77369 /* URLResolverTests.swift */; };
+		3EE1C5F3A78E6F1280A72C97 /* DownloadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CBE9171378B8466EF5760 /* DownloadTests.swift */; };
+		4C65AE62182B12E65CA34D9A /* AdBlockPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C01F680CE2C5AD9A7775AB7 /* AdBlockPanel.swift */; };
+		4D6296E1155960C1654BCA0C /* PerformanceMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97971321C29461581CD4494D /* PerformanceMonitorTests.swift */; };
+		5401FA3BBE7184051C8AB46E /* MediaDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4601E69FB2FFF6177BD44B9C /* MediaDetector.swift */; };
+		69B2479952DE7028D7F0060D /* NOXApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C996EA766AB981AC22286C /* NOXApp.swift */; };
+		7E3BA25D37B86ECD5F6561AC /* DownloadsPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64791C75660AC3732812942 /* DownloadsPanel.swift */; };
+		81C0D0700684FD8A63D182F0 /* SiteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD9AB9410B171430CE45F81 /* SiteStore.swift */; };
+		836DD8BEC238259D8F2E931E /* PasswordPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004EB9F5701E051B24052DF1 /* PasswordPanel.swift */; };
+		8AEE058F01F1080D3F99CD6A /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = F321BC0160E817BA8184B5DD /* Tab.swift */; };
+		8D416227AF80F6381D58543E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 71FE1A7016A88ED9E4401532 /* Assets.xcassets */; };
+		9B3218D07BFF831AAA915518 /* startup.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D24C4967F725C67384B509F9 /* startup.mp3 */; };
+		9C65AFD0FB3173DF620F26C4 /* AdBlockConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B4F36C8F411F1069FACEA /* AdBlockConverterTests.swift */; };
+		9E36A129C2E09B6BE833D9D7 /* PerformancePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA186955AEB4B2677670D6A1 /* PerformancePanel.swift */; };
+		A605351B9BA2C657F509C4E7 /* PrivacyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13669DC46C700F20E4A0A3F9 /* PrivacyManager.swift */; };
+		AE8302D9ADF973AD8F0ABB12 /* URLResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72743BEF1C71F363F91ACC6A /* URLResolver.swift */; };
+		B20F1A62B3EB52CA8991E212 /* SpiritQuest in Resources */ = {isa = PBXBuildFile; fileRef = 209DAA32598DAF7F9A48946C /* SpiritQuest */; };
+		D19785308A07722C83437D93 /* PasswordManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600FB914A7020EAF00C686B /* PasswordManager.swift */; };
+		DC32BCD3759E27F4A94E1FE3 /* TabManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA40B51118CC87F13857C2C /* TabManager.swift */; };
+		E030B535A409DEB9407FC330 /* GameSchemeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C315E5E8ECFAB0D3690654D5 /* GameSchemeHandler.swift */; };
+		E79225FE2A20E70F2B948C74 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00A7608483912510EC183F4 /* Theme.swift */; };
+		E7B565DCC8D784350C003EDE /* Panels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C64638DDBB1BD03A9DD4AFD /* Panels.swift */; };
+		EDAB7A7E0C9FB6561D6CE307 /* AdBlockEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E852AF4EBB32F98952CB6E /* AdBlockEngine.swift */; };
+		EFED6CCEBD8F69ED4374E18C /* BrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0C395A0D1D65B07D0AB56C /* BrowserView.swift */; };
+		F0D15DCF268913A8A105A8FF /* PasswordManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28331AA520A0C3A04C60FD5F /* PasswordManagerTests.swift */; };
+		F633045BC925E4C07BC41A00 /* AdBlockConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E39943E15D02B23D9ED67B /* AdBlockConverter.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B5B3E9D70D475307C889276D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F9B96A834C3273AAE76DD602 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 93B093CAC94D10A02D7DE1BB;
+			remoteInfo = NOX;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		004EB9F5701E051B24052DF1 /* PasswordPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordPanel.swift; sourceTree = "<group>"; };
+		064B4F36C8F411F1069FACEA /* AdBlockConverterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdBlockConverterTests.swift; sourceTree = "<group>"; };
+		13669DC46C700F20E4A0A3F9 /* PrivacyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyManager.swift; sourceTree = "<group>"; };
+		19C996EA766AB981AC22286C /* NOXApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NOXApp.swift; sourceTree = "<group>"; };
+		209DAA32598DAF7F9A48946C /* SpiritQuest */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SpiritQuest; sourceTree = SOURCE_ROOT; };
+		28331AA520A0C3A04C60FD5F /* PasswordManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordManagerTests.swift; sourceTree = "<group>"; };
+		2C64638DDBB1BD03A9DD4AFD /* Panels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Panels.swift; sourceTree = "<group>"; };
+		4601E69FB2FFF6177BD44B9C /* MediaDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDetector.swift; sourceTree = "<group>"; };
+		47CF79228EB3714B27B5737A /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		50E852AF4EBB32F98952CB6E /* AdBlockEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdBlockEngine.swift; sourceTree = "<group>"; };
+		6C1AA75E301CF168FA4FA076 /* NOX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NOX.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6DA40B51118CC87F13857C2C /* TabManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabManager.swift; sourceTree = "<group>"; };
+		71FE1A7016A88ED9E4401532 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		72743BEF1C71F363F91ACC6A /* URLResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLResolver.swift; sourceTree = "<group>"; };
+		7BB05AB02D9B8937062EDE4F /* PerformanceMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceMonitor.swift; sourceTree = "<group>"; };
+		8C01F680CE2C5AD9A7775AB7 /* AdBlockPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdBlockPanel.swift; sourceTree = "<group>"; };
+		8FBD702995840FC1BC963CFF /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
+		97971321C29461581CD4494D /* PerformanceMonitorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceMonitorTests.swift; sourceTree = "<group>"; };
+		A4F769BAEB169ECC2AFC600A /* NOX.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NOX.entitlements; sourceTree = "<group>"; };
+		AC0C395A0D1D65B07D0AB56C /* BrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserView.swift; sourceTree = "<group>"; };
+		B64791C75660AC3732812942 /* DownloadsPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsPanel.swift; sourceTree = "<group>"; };
+		C315E5E8ECFAB0D3690654D5 /* GameSchemeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSchemeHandler.swift; sourceTree = "<group>"; };
+		C600FB914A7020EAF00C686B /* PasswordManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordManager.swift; sourceTree = "<group>"; };
+		CA186955AEB4B2677670D6A1 /* PerformancePanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformancePanel.swift; sourceTree = "<group>"; };
+		CA878A7B0E19114DBB729799 /* NOXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NOXTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CDD9AB9410B171430CE45F81 /* SiteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteStore.swift; sourceTree = "<group>"; };
+		D24C4967F725C67384B509F9 /* startup.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = startup.mp3; sourceTree = "<group>"; };
+		D2E39943E15D02B23D9ED67B /* AdBlockConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdBlockConverter.swift; sourceTree = "<group>"; };
+		F00A7608483912510EC183F4 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		F06CBE9171378B8466EF5760 /* DownloadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadTests.swift; sourceTree = "<group>"; };
+		F321BC0160E817BA8184B5DD /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
+		F9CBAB1C11DAE36E42C77369 /* URLResolverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLResolverTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		462FF003AC9AE23BFB17F84C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6C1AA75E301CF168FA4FA076 /* NOX.app */,
+				CA878A7B0E19114DBB729799 /* NOXTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9C444E101857F7D2C343D1A2 /* NOX */ = {
+			isa = PBXGroup;
+			children = (
+				D2E39943E15D02B23D9ED67B /* AdBlockConverter.swift */,
+				50E852AF4EBB32F98952CB6E /* AdBlockEngine.swift */,
+				8C01F680CE2C5AD9A7775AB7 /* AdBlockPanel.swift */,
+				71FE1A7016A88ED9E4401532 /* Assets.xcassets */,
+				AC0C395A0D1D65B07D0AB56C /* BrowserView.swift */,
+				8FBD702995840FC1BC963CFF /* DownloadManager.swift */,
+				B64791C75660AC3732812942 /* DownloadsPanel.swift */,
+				C315E5E8ECFAB0D3690654D5 /* GameSchemeHandler.swift */,
+				4601E69FB2FFF6177BD44B9C /* MediaDetector.swift */,
+				A4F769BAEB169ECC2AFC600A /* NOX.entitlements */,
+				19C996EA766AB981AC22286C /* NOXApp.swift */,
+				2C64638DDBB1BD03A9DD4AFD /* Panels.swift */,
+				C600FB914A7020EAF00C686B /* PasswordManager.swift */,
+				004EB9F5701E051B24052DF1 /* PasswordPanel.swift */,
+				7BB05AB02D9B8937062EDE4F /* PerformanceMonitor.swift */,
+				CA186955AEB4B2677670D6A1 /* PerformancePanel.swift */,
+				13669DC46C700F20E4A0A3F9 /* PrivacyManager.swift */,
+				47CF79228EB3714B27B5737A /* Settings.swift */,
+				CDD9AB9410B171430CE45F81 /* SiteStore.swift */,
+				F321BC0160E817BA8184B5DD /* Tab.swift */,
+				6DA40B51118CC87F13857C2C /* TabManager.swift */,
+				F00A7608483912510EC183F4 /* Theme.swift */,
+				72743BEF1C71F363F91ACC6A /* URLResolver.swift */,
+				E6DD63595B9626A8A5A7D21D /* Resources */,
+			);
+			path = NOX;
+			sourceTree = "<group>";
+		};
+		9C7CFD0A3CF78A894A77F0B4 = {
+			isa = PBXGroup;
+			children = (
+				209DAA32598DAF7F9A48946C /* SpiritQuest */,
+				9C444E101857F7D2C343D1A2 /* NOX */,
+				CC510C787879E0A135C066DD /* NOXTests */,
+				462FF003AC9AE23BFB17F84C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CC510C787879E0A135C066DD /* NOXTests */ = {
+			isa = PBXGroup;
+			children = (
+				064B4F36C8F411F1069FACEA /* AdBlockConverterTests.swift */,
+				F06CBE9171378B8466EF5760 /* DownloadTests.swift */,
+				28331AA520A0C3A04C60FD5F /* PasswordManagerTests.swift */,
+				97971321C29461581CD4494D /* PerformanceMonitorTests.swift */,
+				F9CBAB1C11DAE36E42C77369 /* URLResolverTests.swift */,
+			);
+			path = NOXTests;
+			sourceTree = "<group>";
+		};
+		E6DD63595B9626A8A5A7D21D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D24C4967F725C67384B509F9 /* startup.mp3 */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		93B093CAC94D10A02D7DE1BB /* NOX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6C9A90665AC28EBF3A123539 /* Build configuration list for PBXNativeTarget "NOX" */;
+			buildPhases = (
+				171CFFE6A2B5E91B9EC6723A /* Sources */,
+				1AA641E114BCDDB59A467DB2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NOX;
+			packageProductDependencies = (
+			);
+			productName = NOX;
+			productReference = 6C1AA75E301CF168FA4FA076 /* NOX.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F8AC17ABA471AA5E5949D036 /* NOXTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2604E2A7737A0E9C4A42869C /* Build configuration list for PBXNativeTarget "NOXTests" */;
+			buildPhases = (
+				0A3D0F774E5A0096EFDEFC2B /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				42FC8ADEC395AB61CA8615D3 /* PBXTargetDependency */,
+			);
+			name = NOXTests;
+			packageProductDependencies = (
+			);
+			productName = NOXTests;
+			productReference = CA878A7B0E19114DBB729799 /* NOXTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F9B96A834C3273AAE76DD602 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					93B093CAC94D10A02D7DE1BB = {
+						ProvisioningStyle = Automatic;
+					};
+					F8AC17ABA471AA5E5949D036 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 32C450CE67FD1CEB52214CAD /* Build configuration list for PBXProject "NOX" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 9C7CFD0A3CF78A894A77F0B4;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 462FF003AC9AE23BFB17F84C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				93B093CAC94D10A02D7DE1BB /* NOX */,
+				F8AC17ABA471AA5E5949D036 /* NOXTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1AA641E114BCDDB59A467DB2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D416227AF80F6381D58543E /* Assets.xcassets in Resources */,
+				B20F1A62B3EB52CA8991E212 /* SpiritQuest in Resources */,
+				9B3218D07BFF831AAA915518 /* startup.mp3 in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0A3D0F774E5A0096EFDEFC2B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9C65AFD0FB3173DF620F26C4 /* AdBlockConverterTests.swift in Sources */,
+				3EE1C5F3A78E6F1280A72C97 /* DownloadTests.swift in Sources */,
+				F0D15DCF268913A8A105A8FF /* PasswordManagerTests.swift in Sources */,
+				4D6296E1155960C1654BCA0C /* PerformanceMonitorTests.swift in Sources */,
+				33751AEFDD83753B1FBAAE73 /* URLResolverTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		171CFFE6A2B5E91B9EC6723A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F633045BC925E4C07BC41A00 /* AdBlockConverter.swift in Sources */,
+				EDAB7A7E0C9FB6561D6CE307 /* AdBlockEngine.swift in Sources */,
+				4C65AE62182B12E65CA34D9A /* AdBlockPanel.swift in Sources */,
+				EFED6CCEBD8F69ED4374E18C /* BrowserView.swift in Sources */,
+				2DBFBE1FF36BAC25FAE1B605 /* DownloadManager.swift in Sources */,
+				7E3BA25D37B86ECD5F6561AC /* DownloadsPanel.swift in Sources */,
+				E030B535A409DEB9407FC330 /* GameSchemeHandler.swift in Sources */,
+				5401FA3BBE7184051C8AB46E /* MediaDetector.swift in Sources */,
+				69B2479952DE7028D7F0060D /* NOXApp.swift in Sources */,
+				E7B565DCC8D784350C003EDE /* Panels.swift in Sources */,
+				D19785308A07722C83437D93 /* PasswordManager.swift in Sources */,
+				836DD8BEC238259D8F2E931E /* PasswordPanel.swift in Sources */,
+				011CC3D48C632DE923AF89A8 /* PerformanceMonitor.swift in Sources */,
+				9E36A129C2E09B6BE833D9D7 /* PerformancePanel.swift in Sources */,
+				A605351B9BA2C657F509C4E7 /* PrivacyManager.swift in Sources */,
+				12464947C9FBCB10AAA556EB /* Settings.swift in Sources */,
+				81C0D0700684FD8A63D182F0 /* SiteStore.swift in Sources */,
+				8AEE058F01F1080D3F99CD6A /* Tab.swift in Sources */,
+				DC32BCD3759E27F4A94E1FE3 /* TabManager.swift in Sources */,
+				E79225FE2A20E70F2B948C74 /* Theme.swift in Sources */,
+				AE8302D9ADF973AD8F0ABB12 /* URLResolver.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		42FC8ADEC395AB61CA8615D3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 93B093CAC94D10A02D7DE1BB /* NOX */;
+			targetProxy = B5B3E9D70D475307C889276D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		09031FCD684FF54CAF08E44C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.nox.NOXTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NOX.app/Contents/MacOS/NOX";
+			};
+			name = Release;
+		};
+		3C4BF5304DA5C16E3AAA806E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = NOX/NOX.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "NOX Browser";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Web siteleri izninizle kamerayı kullanabilir.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Web siteleri izninizle mikrofonu kullanabilir.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nox.browser;
+				PRODUCT_NAME = NOX;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		483FCEE2DFDA482A006B30F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.6.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		83700026B0FBF600E7A762F8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = NOX/NOX.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "NOX Browser";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Web siteleri izninizle kamerayı kullanabilir.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Web siteleri izninizle mikrofonu kullanabilir.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.nox.browser;
+				PRODUCT_NAME = NOX;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		859D639ED7A0CBFF8C007F51 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.nox.NOXTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NOX.app/Contents/MacOS/NOX";
+			};
+			name = Debug;
+		};
+		FBBBE4F3845DB0809311793C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.6.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2604E2A7737A0E9C4A42869C /* Build configuration list for PBXNativeTarget "NOXTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				859D639ED7A0CBFF8C007F51 /* Debug */,
+				09031FCD684FF54CAF08E44C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		32C450CE67FD1CEB52214CAD /* Build configuration list for PBXProject "NOX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				483FCEE2DFDA482A006B30F9 /* Debug */,
+				FBBBE4F3845DB0809311793C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		6C9A90665AC28EBF3A123539 /* Build configuration list for PBXNativeTarget "NOX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				83700026B0FBF600E7A762F8 /* Debug */,
+				3C4BF5304DA5C16E3AAA806E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F9B96A834C3273AAE76DD602 /* Project object */;
+}

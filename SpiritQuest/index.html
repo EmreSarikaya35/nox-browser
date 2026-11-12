@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spirit Quest: The Forgotten Shrine</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Sahne 480x270 tasarlanır ve pencereye göre bütün olarak ölçeklenir (main.js: resize). -->
+  <main id="stage">
+    <canvas id="game" width="480" height="270" aria-label="Oyun alanı"></canvas>
+    <div id="hud" aria-live="off"></div>
+    <div id="toasts" aria-live="polite"></div>
+    <div id="dialogue" hidden>
+      <img id="dlg-portrait" class="px" alt="" width="40" height="40">
+      <div class="body">
+        <div id="dlg-name"></div>
+        <div id="dlg-text" aria-live="polite"></div>
+        <div id="dlg-choices" hidden></div>
+      </div>
+      <div id="dlg-more">E ▸</div>
+    </div>
+    <div id="overlay" hidden></div>
+    <div id="fade"></div>
+  </main>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
