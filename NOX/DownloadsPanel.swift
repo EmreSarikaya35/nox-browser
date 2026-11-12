@@ -119,10 +119,10 @@ private struct DownloadRow: View {
     private var status: String {
         switch item.state {
         case .downloading: return progressText
-        case .paused: return "Duraklatıldı · " + progressText
-        case .finished: return "Tamamlandı · \(bytes(item.received)) · \(item.date.formatted(date: .abbreviated, time: .shortened))"
-        case .failed(let e): return "Başarısız: " + e
-        case .cancelled: return "İptal edildi"
+        case .paused: return L("Duraklatıldı") + " · " + progressText
+        case .finished: return L("Tamamlandı") + " · \(bytes(item.received)) · \(item.date.formatted(date: .abbreviated, time: .shortened))"
+        case .failed(let e): return L("Başarısız: \(e)")
+        case .cancelled: return L("İptal edildi")
         }
     }
 

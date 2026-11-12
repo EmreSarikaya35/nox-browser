@@ -4,6 +4,8 @@ import SwiftUI
 struct NOXApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 
+    init() { Language.apply() } // menüler ve pencereler oluşmadan önce
+
     var body: some Scene {
         // Her pencerenin kendi sekmeleri vardır; geçmiş, yer imleri vb. Services üzerinden ortaktır.
         WindowGroup {

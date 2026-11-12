@@ -34,13 +34,13 @@ struct PerfRow: Identifiable {
 @MainActor
 final class PerformanceMonitor: ObservableObject {
     @Published private(set) var rows: [PerfRow] = []
-    @Published private(set) var total = PerfRow(id: "total", title: "Toplam")
+    @Published private(set) var total = PerfRow(id: "total", title: L("Toplam"))
     private var last: [pid_t: (sample: ProcSample, time: TimeInterval)] = [:]
 
     func refresh(tabs: [Tab]) {
         let now = ProcessInfo.processInfo.systemUptime
         var next: [pid_t: (sample: ProcSample, time: TimeInterval)] = [:]
-        var sum = PerfRow(id: "total", title: "Toplam", cpu: 0, memory: 0, wakeups: 0)
+        var sum = PerfRow(id: "total", title: L("Toplam"), cpu: 0, memory: 0, wakeups: 0)
 
         func row(id: String, title: String, pid: pid_t?, tab: Tab?) -> PerfRow {
             var r = PerfRow(id: id, title: title, tab: tab)
@@ -60,7 +60,7 @@ final class PerformanceMonitor: ObservableObject {
             return r
         }
 
-        let app = row(id: "app", title: "NOX (arayüz)", pid: getpid(), tab: nil)
+        let app = row(id: "app", title: L("NOX (arayüz)"), pid: getpid(), tab: nil)
         let tabRows = tabs.map { row(id: $0.id.uuidString, title: $0.title, pid: $0.processID, tab: $0) }
             .sorted { ($0.cpu ?? -1, $0.memory ?? 0) > ($1.cpu ?? -1, $1.memory ?? 0) }
         if last.isEmpty { sum.cpu = nil; sum.wakeups = nil } // ilk örnekte hız hesaplanamaz

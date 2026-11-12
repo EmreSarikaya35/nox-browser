@@ -22,6 +22,7 @@
 		7E3BA25D37B86ECD5F6561AC /* DownloadsPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64791C75660AC3732812942 /* DownloadsPanel.swift */; };
 		81C0D0700684FD8A63D182F0 /* SiteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD9AB9410B171430CE45F81 /* SiteStore.swift */; };
 		836DD8BEC238259D8F2E931E /* PasswordPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004EB9F5701E051B24052DF1 /* PasswordPanel.swift */; };
+		84FC634E5D7E5227C4D731D6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9C6533EADDC58DEFACB01381 /* InfoPlist.strings */; };
 		8AEE058F01F1080D3F99CD6A /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = F321BC0160E817BA8184B5DD /* Tab.swift */; };
 		8D416227AF80F6381D58543E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 71FE1A7016A88ED9E4401532 /* Assets.xcassets */; };
 		9B3218D07BFF831AAA915518 /* startup.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D24C4967F725C67384B509F9 /* startup.mp3 */; };
@@ -33,6 +34,7 @@
 		B20F1A62B3EB52CA8991E212 /* SpiritQuest in Resources */ = {isa = PBXBuildFile; fileRef = 209DAA32598DAF7F9A48946C /* SpiritQuest */; };
 		CCE9217B2C545A82E3466D32 /* HLS.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6E132C8F74F11058EA0A15 /* HLS.swift */; };
 		D19785308A07722C83437D93 /* PasswordManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600FB914A7020EAF00C686B /* PasswordManager.swift */; };
+		DC0CBB85531E45B8144A4B58 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8445ED490F93860098601ED7 /* Localizable.strings */; };
 		DC32BCD3759E27F4A94E1FE3 /* TabManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA40B51118CC87F13857C2C /* TabManager.swift */; };
 		E030B535A409DEB9407FC330 /* GameSchemeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C315E5E8ECFAB0D3690654D5 /* GameSchemeHandler.swift */; };
 		E79225FE2A20E70F2B948C74 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00A7608483912510EC183F4 /* Theme.swift */; };
@@ -61,7 +63,9 @@
 		19C996EA766AB981AC22286C /* NOXApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NOXApp.swift; sourceTree = "<group>"; };
 		209DAA32598DAF7F9A48946C /* SpiritQuest */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SpiritQuest; sourceTree = SOURCE_ROOT; };
 		28331AA520A0C3A04C60FD5F /* PasswordManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordManagerTests.swift; sourceTree = "<group>"; };
+		2AB6FF6789D707084106D77E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2C64638DDBB1BD03A9DD4AFD /* Panels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Panels.swift; sourceTree = "<group>"; };
+		389083103D38EB7443B199AC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4601E69FB2FFF6177BD44B9C /* MediaDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDetector.swift; sourceTree = "<group>"; };
 		47CF79228EB3714B27B5737A /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		4EB64F5E1E28598DE037F61E /* Services.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services.swift; sourceTree = "<group>"; };
@@ -72,8 +76,10 @@
 		72743BEF1C71F363F91ACC6A /* URLResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLResolver.swift; sourceTree = "<group>"; };
 		778AD13433CAE27FFD83CCC9 /* FeatureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureTests.swift; sourceTree = "<group>"; };
 		7BB05AB02D9B8937062EDE4F /* PerformanceMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceMonitor.swift; sourceTree = "<group>"; };
+		8B819B448A1AF59371FF6852 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8C01F680CE2C5AD9A7775AB7 /* AdBlockPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdBlockPanel.swift; sourceTree = "<group>"; };
 		8FBD702995840FC1BC963CFF /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
+		93180E07C73E8BAD7CE8043A /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		97971321C29461581CD4494D /* PerformanceMonitorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceMonitorTests.swift; sourceTree = "<group>"; };
 		A4F769BAEB169ECC2AFC600A /* NOX.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NOX.entitlements; sourceTree = "<group>"; };
 		AC0C395A0D1D65B07D0AB56C /* BrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserView.swift; sourceTree = "<group>"; };
@@ -133,6 +139,8 @@
 				6DA40B51118CC87F13857C2C /* TabManager.swift */,
 				F00A7608483912510EC183F4 /* Theme.swift */,
 				72743BEF1C71F363F91ACC6A /* URLResolver.swift */,
+				9C6533EADDC58DEFACB01381 /* InfoPlist.strings */,
+				8445ED490F93860098601ED7 /* Localizable.strings */,
 				E6DD63595B9626A8A5A7D21D /* Resources */,
 			);
 			path = NOX;
@@ -231,6 +239,7 @@
 			knownRegions = (
 				Base,
 				en,
+				tr,
 			);
 			mainGroup = 9C7CFD0A3CF78A894A77F0B4;
 			minimizedProjectReferenceProxies = 1;
@@ -251,6 +260,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D416227AF80F6381D58543E /* Assets.xcassets in Resources */,
+				84FC634E5D7E5227C4D731D6 /* InfoPlist.strings in Resources */,
+				DC0CBB85531E45B8144A4B58 /* Localizable.strings in Resources */,
 				B20F1A62B3EB52CA8991E212 /* SpiritQuest in Resources */,
 				9B3218D07BFF831AAA915518 /* startup.mp3 in Resources */,
 			);
@@ -313,6 +324,27 @@
 			targetProxy = B5B3E9D70D475307C889276D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		8445ED490F93860098601ED7 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2AB6FF6789D707084106D77E /* en */,
+				8B819B448A1AF59371FF6852 /* tr */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		9C6533EADDC58DEFACB01381 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				389083103D38EB7443B199AC /* en */,
+				93180E07C73E8BAD7CE8043A /* tr */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		09031FCD684FF54CAF08E44C /* Release */ = {
@@ -410,7 +442,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.7.0;
+				MARKETING_VERSION = 0.8.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -509,7 +541,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.7.0;
+				MARKETING_VERSION = 0.8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";

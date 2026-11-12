@@ -57,7 +57,7 @@ struct AdBlockPanel: View {
         .preferredColorScheme(.dark)
     }
 
-    private func stat(_ label: String, _ value: Int) -> some View {
+    private func stat(_ label: LocalizedStringKey, _ value: Int) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             Text("\(value)").font(.system(size: 20, weight: .semibold, design: .rounded)).foregroundStyle(Color.noxNeon)
             Text(label).font(.caption).foregroundStyle(.secondary)

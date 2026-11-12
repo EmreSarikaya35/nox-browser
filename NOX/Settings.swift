@@ -20,11 +20,31 @@ private struct GeneralSettings: View {
     @AppStorage("darkWeb") private var darkWeb = false
     @AppStorage("autoUpdateCheck") private var autoUpdateCheck = true
     @State private var importResult = ""
+    @AppStorage("appLanguage") private var appLanguage = "system"
+    @State private var languageChanged = false
     @State private var newWorkspace = ""
     @ObservedObject private var workspaces = Services.workspaces
 
     var body: some View {
         Form {
+            // "Sistem dili": macOS dili Türkçeyse Türkçe, başka herhangi bir dilse İngilizce.
+            Picker("Dil / Language", selection: $appLanguage) {
+                Text("Sistem dili").tag("system")
+                Text(verbatim: "Türkçe").tag("tr")
+                Text(verbatim: "English").tag("en")
+            }
+            .onChange(of: appLanguage) {
+                Language.apply() // yeni dil bir sonraki açılışta geçerli olur
+                languageChanged = true
+            }
+            if languageChanged {
+                LabeledContent("") {
+                    HStack {
+                        Text("Dil değişikliği yeniden başlatınca geçerli olur.").font(.caption).foregroundStyle(.secondary)
+                        Button("Yeniden Başlat") { Updater.shared.relaunch() }.controlSize(.small)
+                    }
+                }
+            }
             Picker("Arama motoru", selection: $engine) {
                 ForEach(SearchEngine.allCases) { Text($0.rawValue).tag($0.rawValue) }
             }
@@ -55,13 +75,13 @@ private struct GeneralSettings: View {
                         Button("Yer İmleri (HTML)…") { importBookmarks() }
                         Button("Parolalar (CSV)…") { importPasswords() }
                     }
-                    Text(importResult.isEmpty ? "Safari, Chrome veya Firefox'tan dışa aktarılan dosyayı seçin." : importResult)
+                    Text(importResult.isEmpty ? L("Safari, Chrome veya Firefox'tan dışa aktarılan dosyayı seçin.") : importResult)
                         .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
                 }
             }
             LabeledContent("Başlangıç sayfası arka planı") {
                 HStack {
-                    Text(startBackground.isEmpty ? "Yok" : (startBackground as NSString).lastPathComponent)
+                    Text(startBackground.isEmpty ? L("Yok") : (startBackground as NSString).lastPathComponent)
                         .lineLimit(1).truncationMode(.middle).foregroundStyle(.secondary)
                     Button("Seç…") {
                         let panel = NSOpenPanel()
@@ -81,10 +101,10 @@ private struct GeneralSettings: View {
 
     private func deleteWorkspace(_ name: String) {
         let alert = NSAlert()
-        alert.messageText = "“\(name)” alanı silinsin mi?"
-        alert.informativeText = "Bu alandaki bütün sekmeler kapatılır."
-        alert.addButton(withTitle: "Vazgeç")
-        alert.addButton(withTitle: "Sil")
+        alert.messageText = L("“\(name)” alanı silinsin mi?")
+        alert.informativeText = L("Bu alandaki bütün sekmeler kapatılır.")
+        alert.addButton(withTitle: L("Vazgeç"))
+        alert.addButton(withTitle: L("Sil"))
         if alert.runModal() == .alertSecondButtonReturn { workspaces.remove(name) }
     }
 
@@ -98,15 +118,15 @@ private struct GeneralSettings: View {
     private func importBookmarks() {
         guard let html = pick("html") else { return }
         let found = Importer.bookmarks(fromHTML: html)
-        importResult = found.isEmpty ? "Dosyada yer imi bulunamadı." : "\(Services.bookmarks.addMany(found)) yer imi eklendi (\(found.count) bulundu)."
+        importResult = found.isEmpty ? L("Dosyada yer imi bulunamadı.") : L("\(Services.bookmarks.addMany(found)) yer imi eklendi (\(found.count) bulundu).")
     }
 
     private func importPasswords() {
         guard let csv = pick("csv") else { return }
         let found = Importer.passwords(fromCSV: csv)
         let saved = found.filter { Services.passwords.save(host: $0.host, username: $0.username, password: $0.password) }.count
-        importResult = found.isEmpty ? "Dosyada parola bulunamadı (url, username, password sütunları gerekli)."
-            : "\(saved) parola Anahtar Zinciri'ne kaydedildi. CSV dosyası parolaları açık metin içerir; işiniz bitince silin."
+        importResult = found.isEmpty ? L("Dosyada parola bulunamadı (url, username, password sütunları gerekli).")
+            : L("\(saved) parola Anahtar Zinciri'ne kaydedildi. CSV dosyası parolaları açık metin içerir; işiniz bitince silin.")
     }
 }
 
@@ -144,8 +164,8 @@ private struct PrivacySettings: View {
     }
 
     private func describe(_ p: [String: Bool]) -> String {
-        [("camera", "Kamera"), ("microphone", "Mikrofon")]
-            .compactMap { key, name in p[key].map { "\(name): \($0 ? "izinli" : "engelli")" } }
+        [("camera", L("Kamera")), ("microphone", L("Mikrofon"))]
+            .compactMap { key, name in p[key].map { "\(name): \($0 ? L("izinli") : L("engelli"))" } }
             .joined(separator: " · ")
     }
 }
@@ -165,7 +185,7 @@ private struct PasswordSettings: View {
                     HStack {
                         VStack(alignment: .leading) {
                             Text(c.host).lineLimit(1)
-                            Text(c.username.isEmpty ? "(kullanıcı adı yok)" : c.username).font(.caption).foregroundStyle(.secondary)
+                            Text(c.username.isEmpty ? L("(kullanıcı adı yok)") : c.username).font(.caption).foregroundStyle(.secondary)
                         }
                         Spacer()
                         if copied == c.id { Text("Kopyalandı").font(.caption).foregroundStyle(.secondary) }

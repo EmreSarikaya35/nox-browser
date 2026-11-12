@@ -12,9 +12,29 @@ extension Color {
     static let noxNeon = Color(hex: 0xA77BFF)
 }
 
+/// Arayüz metni. Türkçe kaynak metin anahtardır; İngilizce karşılığı en.lproj/Localizable.strings içindedir.
+/// SwiftUI'nin kendiliğinden çevirmediği yerlerde (uyarı pencereleri, durum mesajları, String değişkenleri) kullanılır.
+func L(_ key: String.LocalizationValue) -> String { String(localized: key) }
+
+/// Arayüz dili. Ayar "system" ise macOS'un birinci dili Türkçeyse Türkçe, başka herhangi bir dilse İngilizce.
+enum Language {
+    static func code(setting: String, system: [String]) -> String {
+        if setting == "tr" || setting == "en" { return setting }
+        return system.first?.lowercased().hasPrefix("tr") == true ? "tr" : "en"
+    }
+
+    /// Uygulamanın dil tercihini yazar. Açılışta, hiçbir metin yüklenmeden önce çağrılır; ayar sonradan
+    /// değişirse yeni dil bir sonraki açılışta geçerli olur.
+    static func apply() {
+        let d = UserDefaults.standard
+        let system = d.persistentDomain(forName: UserDefaults.globalDomain)?["AppleLanguages"] as? [String] ?? []
+        d.set([code(setting: d.string(forKey: "appLanguage") ?? "system", system: system)], forKey: "AppleLanguages")
+    }
+}
+
 struct NoxIconButton: View {
     let symbol: String
-    let help: String
+    let help: LocalizedStringKey
     var disabled = false
     var tint = Color.noxSilver
     let action: () -> Void

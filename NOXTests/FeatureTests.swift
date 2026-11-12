@@ -87,6 +87,16 @@ final class FeatureTests: XCTestCase {
         XCTAssertEqual(try FileManager.default.contentsOfDirectory(atPath: out.path), ["film.mp4"]) // reddedilenler dosya bırakmaz
     }
 
+    func testLanguageSelection() {
+        XCTAssertEqual(Language.code(setting: "system", system: ["tr-TR", "en-US"]), "tr")
+        XCTAssertEqual(Language.code(setting: "system", system: ["en-US"]), "en")
+        XCTAssertEqual(Language.code(setting: "system", system: ["de-DE", "tr-TR"]), "en") // birinci dil Türkçe değil
+        XCTAssertEqual(Language.code(setting: "system", system: ["ja-JP"]), "en")
+        XCTAssertEqual(Language.code(setting: "system", system: []), "en")
+        XCTAssertEqual(Language.code(setting: "en", system: ["tr-TR"]), "en") // ayar sistem dilini ezer
+        XCTAssertEqual(Language.code(setting: "tr", system: ["de-DE"]), "tr")
+    }
+
     func testVersionCompare() {
         XCTAssertTrue(Updater.isNewer("v0.7.0", than: "0.6.0"))
         XCTAssertTrue(Updater.isNewer("0.10.0", than: "0.9.9"))

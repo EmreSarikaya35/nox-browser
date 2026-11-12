@@ -12,10 +12,10 @@ struct FilterList: Identifiable {
 final class AdBlockEngine: ObservableObject {
     // Listeler çalışma anında kendi sunucularından indirilir, uygulamayla birlikte dağıtılmaz.
     static let lists = [
-        FilterList(id: "easylist", name: "EasyList (reklamlar)", url: URL(string: "https://easylist.to/easylist/easylist.txt")!),
-        FilterList(id: "easyprivacy", name: "EasyPrivacy (takipçiler)", url: URL(string: "https://easylist.to/easylist/easyprivacy.txt")!),
+        FilterList(id: "easylist", name: L("EasyList (reklamlar)"), url: URL(string: "https://easylist.to/easylist/easylist.txt")!),
+        FilterList(id: "easyprivacy", name: L("EasyPrivacy (takipçiler)"), url: URL(string: "https://easylist.to/easylist/easyprivacy.txt")!),
         FilterList(id: "ublock", name: "uBlock filters", url: URL(string: "https://ublockorigin.github.io/uAssets/filters/filters.txt")!),
-        FilterList(id: "adguard-tr", name: "AdGuard Türkçe", url: URL(string: "https://filters.adtidy.org/extension/ublock/filters/13.txt")!),
+        FilterList(id: "adguard-tr", name: L("AdGuard Türkçe"), url: URL(string: "https://filters.adtidy.org/extension/ublock/filters/13.txt")!),
     ]
     private static let customID = "custom"
     private static let updateInterval: TimeInterval = 4 * 24 * 3600
@@ -95,13 +95,13 @@ final class AdBlockEngine: ObservableObject {
                     ruleCounts[Self.customID] = nil
                     changed()
                     try? await store.removeContentRuleList(forIdentifier: Self.customID)
-                    status = customFilters.isEmpty ? "Özel filtreler kaldırıldı" : "Özel filtrelerde desteklenen kural yok"
+                    status = customFilters.isEmpty ? L("Özel filtreler kaldırıldı") : L("Özel filtrelerde desteklenen kural yok")
                 } else {
                     try await compile(Self.customID, customFilters)
                     changed()
-                    status = "Özel filtreler uygulandı (\(ruleCounts[Self.customID] ?? 0) kural)"
+                    status = L("Özel filtreler uygulandı (\(ruleCounts[Self.customID] ?? 0) kural)")
                 }
-            } catch { status = "Özel filtreler derlenemedi: \(error.localizedDescription)" }
+            } catch { status = L("Özel filtreler derlenemedi: \(error.localizedDescription)") }
             defaults.set(ruleCounts, forKey: "adblockCounts")
         }
     }
@@ -120,11 +120,11 @@ final class AdBlockEngine: ObservableObject {
                 continue
             }
             guard force || compiled[list.id] == nil else { continue }
-            status = "\(list.name) indiriliyor…"
+            status = L("\(list.name) indiriliyor…")
             do {
                 let (data, response) = try await URLSession.shared.data(from: list.url)
                 guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw URLError(.badServerResponse) }
-                status = "\(list.name) derleniyor…"
+                status = L("\(list.name) derleniyor…")
                 try await compile(list.id, String(decoding: data, as: UTF8.self))
                 downloaded = true
             } catch {

@@ -19,23 +19,23 @@ struct CommandPalette: View {
 
     private var commands: [Item] {
         [
-            Item(id: "c.new", icon: "plus", title: "Yeni Sekme") { tm.newTab() },
-            Item(id: "c.private", icon: "eyeglasses", title: "Yeni Gizli Sekme") { tm.newTab(isPrivate: true) },
-            Item(id: "c.reopen", icon: "arrow.uturn.backward", title: "Kapatılan Sekmeyi Yeniden Aç") { tm.reopenClosed() },
-            Item(id: "c.pin", icon: "pin", title: "Sekmeyi Sabitle / Sabitlemeyi Kaldır") { if let id = tm.selectedID { tm.togglePin(id) } },
-            Item(id: "c.split", icon: "rectangle.split.2x1", title: "Bölünmüş Görünüm") { tm.toggleSplit() },
-            Item(id: "c.pip", icon: "pip", title: "Resim İçinde Resim") { tm.selected?.togglePiP() },
-            Item(id: "c.downloads", icon: "arrow.down.circle", title: "İndirmeler") { tm.downloadsVisible = true },
-            Item(id: "c.find", icon: "magnifyingglass", title: "Sayfada Bul") { tm.findVisible = true },
-            Item(id: "c.bookmark", icon: "star", title: "Yer İmi Ekle / Kaldır") { tm.toggleBookmark() },
-            Item(id: "c.dark", icon: "moon", title: "Web Sayfalarını Karart") { toggle("darkWeb") },
-            Item(id: "c.vertical", icon: "sidebar.squares.left", title: "Dikey Sekmeler") { toggle("verticalTabs") },
-            Item(id: "c.sidebar", icon: "sidebar.left", title: "Kenar Çubuğu") { toggle("showSidebar") },
-            Item(id: "c.saver", icon: "leaf", title: "Pil Tasarrufu Modu") { toggle("batterySaver") },
-            Item(id: "c.game", icon: "moon.stars", title: "Spirit Quest'i Oyna") { tm.newTab(url: GameSchemeHandler.gameURL) },
-            Item(id: "c.update", icon: "arrow.triangle.2.circlepath", title: "Güncellemeleri Denetle") { Updater.shared.checkManually() },
+            Item(id: "c.new", icon: "plus", title: L("Yeni Sekme")) { tm.newTab() },
+            Item(id: "c.private", icon: "eyeglasses", title: L("Yeni Gizli Sekme")) { tm.newTab(isPrivate: true) },
+            Item(id: "c.reopen", icon: "arrow.uturn.backward", title: L("Kapatılan Sekmeyi Yeniden Aç")) { tm.reopenClosed() },
+            Item(id: "c.pin", icon: "pin", title: L("Sekmeyi Sabitle / Sabitlemeyi Kaldır")) { if let id = tm.selectedID { tm.togglePin(id) } },
+            Item(id: "c.split", icon: "rectangle.split.2x1", title: L("Bölünmüş Görünüm")) { tm.toggleSplit() },
+            Item(id: "c.pip", icon: "pip", title: L("Resim İçinde Resim")) { tm.selected?.togglePiP() },
+            Item(id: "c.downloads", icon: "arrow.down.circle", title: L("İndirmeler")) { tm.downloadsVisible = true },
+            Item(id: "c.find", icon: "magnifyingglass", title: L("Sayfada Bul")) { tm.findVisible = true },
+            Item(id: "c.bookmark", icon: "star", title: L("Yer İmi Ekle / Kaldır")) { tm.toggleBookmark() },
+            Item(id: "c.dark", icon: "moon", title: L("Web Sayfalarını Karart")) { toggle("darkWeb") },
+            Item(id: "c.vertical", icon: "sidebar.squares.left", title: L("Dikey Sekmeler")) { toggle("verticalTabs") },
+            Item(id: "c.sidebar", icon: "sidebar.left", title: L("Kenar Çubuğu")) { toggle("showSidebar") },
+            Item(id: "c.saver", icon: "leaf", title: L("Pil Tasarrufu Modu")) { toggle("batterySaver") },
+            Item(id: "c.game", icon: "moon.stars", title: L("Spirit Quest'i Oyna")) { tm.newTab(url: GameSchemeHandler.gameURL) },
+            Item(id: "c.update", icon: "arrow.triangle.2.circlepath", title: L("Güncellemeleri Denetle")) { Updater.shared.checkManually() },
         ] + tm.workspaces.filter { $0 != tm.workspace }.map { ws in
-            Item(id: "w." + ws, icon: "square.stack.3d.up", title: "Çalışma Alanı: \(ws)") { tm.setWorkspace(ws) }
+            Item(id: "w." + ws, icon: "square.stack.3d.up", title: L("Çalışma Alanı: \(TabManager.displayName(ws))")) { tm.setWorkspace(ws) }
         }
     }
 
@@ -44,7 +44,7 @@ struct CommandPalette: View {
         guard !q.isEmpty else { return commands }
         let has = { (s: String) in s.localizedCaseInsensitiveContains(q) }
         let tabs = tm.tabs.filter { has($0.title) || has($0.url?.absoluteString ?? "") }.map { tab in
-            Item(id: "t." + tab.id.uuidString, icon: "rectangle.on.rectangle", title: tab.title, subtitle: "Sekmeye geç") {
+            Item(id: "t." + tab.id.uuidString, icon: "rectangle.on.rectangle", title: tab.title, subtitle: L("Sekmeye geç")) {
                 tm.setWorkspace(tab.workspace)
                 tm.select(tab.id)
             }
@@ -52,7 +52,7 @@ struct CommandPalette: View {
         let sites = (tm.bookmarks.matching(q).prefix(4).map { ($0, "star") } + tm.history.matching(q).prefix(4).map { ($0, "clock") }).map { site, icon in
             Item(id: "s." + site.id.uuidString, icon: icon, title: site.title, subtitle: site.url.host ?? "") { tm.newTab(url: site.url) }
         }
-        let open = Item(id: "open", icon: "arrow.right.circle", title: q, subtitle: "Ara veya adrese git") { tm.open(q) }
+        let open = Item(id: "open", icon: "arrow.right.circle", title: q, subtitle: L("Ara veya adrese git")) { tm.open(q) }
         return Array((commands.filter { has($0.title) } + tabs + sites).prefix(11)) + [open]
     }
 

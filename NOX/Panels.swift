@@ -113,7 +113,7 @@ struct Sidebar: View {
             }
             .pickerStyle(.segmented).labelsHidden().padding(8)
             if store.items.isEmpty {
-                Text(showHistory ? "Geçmiş boş" : "Henüz yer imi yok (⌘D)")
+                Text(showHistory ? L("Geçmiş boş") : L("Henüz yer imi yok (⌘D)"))
                     .font(.caption).foregroundStyle(Color.noxSilver.opacity(0.7))
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {

@@ -6,7 +6,7 @@ import WebKit
 final class Tab: NSObject, ObservableObject, Identifiable, WKNavigationDelegate, WKUIDelegate {
     let id = UUID()
     let isPrivate: Bool
-    @Published var title = "Yeni Sekme"
+    @Published var title = L("Yeni Sekme")
     @Published var url: URL?
     @Published var isLoading = false
     @Published var progress = 0.0
@@ -128,7 +128,7 @@ final class Tab: NSObject, ObservableObject, Identifiable, WKNavigationDelegate,
         webView = nil
         savedState = nil; pendingURL = nil
         appliedRules = nil; blockedCount = 0; favicon = nil
-        url = nil; error = nil; title = "Yeni Sekme"
+        url = nil; error = nil; title = L("Yeni Sekme")
         isLoading = false; canGoBack = false; canGoForward = false
     }
 
@@ -299,7 +299,7 @@ final class Tab: NSObject, ObservableObject, Identifiable, WKNavigationDelegate,
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) { show(error) }
 
     func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
-        error = "Sayfa işlemi beklenmedik şekilde sonlandı."
+        error = L("Sayfa işlemi beklenmedik şekilde sonlandı.")
     }
 
     private func show(_ e: Error) {
@@ -392,10 +392,10 @@ final class Tab: NSObject, ObservableObject, Identifiable, WKNavigationDelegate,
 
     private func alert(_ frame: WKFrameInfo, _ message: String, cancel: Bool) -> NSAlert {
         let a = NSAlert()
-        a.messageText = frame.request.url?.host ?? "Sayfa"
+        a.messageText = frame.request.url?.host ?? L("Sayfa")
         a.informativeText = message
-        a.addButton(withTitle: "Tamam")
-        if cancel { a.addButton(withTitle: "Vazgeç") }
+        a.addButton(withTitle: L("Tamam"))
+        if cancel { a.addButton(withTitle: L("Vazgeç")) }
         return a
     }
 }

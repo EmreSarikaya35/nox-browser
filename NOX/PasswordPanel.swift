@@ -16,10 +16,10 @@ struct PasswordPanel: View {
                 ForEach(saved) { c in
                     HStack(spacing: 6) {
                         Image(systemName: "person.crop.circle").foregroundStyle(Color.noxSilver)
-                        Text(c.username.isEmpty ? "(kullanıcı adı yok)" : c.username).lineLimit(1).truncationMode(.middle)
+                        Text(c.username.isEmpty ? L("(kullanıcı adı yok)") : c.username).lineLimit(1).truncationMode(.middle)
                         Spacer(minLength: 4)
                         Button("Doldur") { fill(c) }
-                        NoxIconButton(symbol: "trash", help: "Parolayı Sil") { passwords.delete(c); status = "Silindi." }
+                        NoxIconButton(symbol: "trash", help: "Parolayı Sil") { passwords.delete(c); status = L("Silindi.") }
                     }
                 }
                 Divider()
@@ -41,21 +41,21 @@ struct PasswordPanel: View {
     }
 
     private func fill(_ c: Credential) {
-        guard let password = passwords.password(for: c) else { status = "Parola Anahtar Zinciri'nden okunamadı."; return }
+        guard let password = passwords.password(for: c) else { status = L("Parola Anahtar Zinciri'nden okunamadı."); return }
         Task {
             status = await tab.fillLogin(username: c.username, password: password)
-                ? "Dolduruldu." : "Bu sayfada doldurulacak bir giriş alanı bulunamadı."
+                ? L("Dolduruldu.") : L("Bu sayfada doldurulacak bir giriş alanı bulunamadı.")
         }
     }
 
     private func save(_ host: String) {
         Task {
             guard let login = await tab.readLoginForm() else {
-                status = "Bu sayfada parolası yazılmış bir giriş formu bulunamadı."
+                status = L("Bu sayfada parolası yazılmış bir giriş formu bulunamadı.")
                 return
             }
             status = passwords.save(host: host, username: login.username, password: login.password)
-                ? "Kaydedildi." : "Anahtar Zinciri'ne kaydedilemedi."
+                ? L("Kaydedildi.") : L("Anahtar Zinciri'ne kaydedilemedi.")
         }
     }
 }

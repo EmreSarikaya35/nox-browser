@@ -45,11 +45,11 @@ struct WorkspaceMenu: View {
         Menu {
             ForEach(tm.workspaces, id: \.self) { ws in
                 Button { tm.setWorkspace(ws) } label: {
-                    if ws == tm.workspace { Label(ws, systemImage: "checkmark") } else { Text(ws) }
+                    if ws == tm.workspace { Label(TabManager.displayName(ws), systemImage: "checkmark") } else { Text(TabManager.displayName(ws)) }
                 }
             }
         } label: {
-            Label(tm.workspace, systemImage: "square.stack.3d.up").font(.system(size: 11, weight: .medium))
+            Label(TabManager.displayName(tm.workspace), systemImage: "square.stack.3d.up").font(.system(size: 11, weight: .medium))
         }
         .menuStyle(.borderlessButton)
         .fixedSize()
@@ -143,7 +143,7 @@ struct TabChip: View {
         .contentShape(Rectangle())
         .onTapGesture { tm.select(tab.id) }
         .onHover { hover = $0 }
-        .help(tab.isSleeping ? "\(tab.title) (uyuyor)" : tab.title)
+        .help(tab.isSleeping ? L("\(tab.title) (uyuyor)") : tab.title)
         .animation(.easeOut(duration: 0.12), value: hover)
         .draggable(tab.id.uuidString)
         .dropDestination(for: String.self) { items, _ in
@@ -152,11 +152,11 @@ struct TabChip: View {
             return true
         }
         .contextMenu {
-            Button(tab.isPinned ? "Sabitlemeyi Kaldır" : "Sekmeyi Sabitle") { tm.togglePin(tab.id) }
-            Button(split ? "Bölünmüş Görünümü Kapat" : "Yan Yana Aç") { tm.toggleSplit(with: tab.id) }.disabled(selected)
+            Button(tab.isPinned ? L("Sabitlemeyi Kaldır") : L("Sekmeyi Sabitle")) { tm.togglePin(tab.id) }
+            Button(split ? L("Bölünmüş Görünümü Kapat") : L("Yan Yana Aç")) { tm.toggleSplit(with: tab.id) }.disabled(selected)
             if tm.workspaces.count > 1 {
                 Menu("Çalışma Alanına Taşı") {
-                    ForEach(tm.workspaces.filter { $0 != tab.workspace }, id: \.self) { ws in Button(ws) { tm.moveTab(tab.id, to: ws) } }
+                    ForEach(tm.workspaces.filter { $0 != tab.workspace }, id: \.self) { ws in Button(TabManager.displayName(ws)) { tm.moveTab(tab.id, to: ws) } }
                 }
             }
             Divider()
@@ -301,7 +301,7 @@ struct TabContent: View {
             case "http": Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.orange).help("Bağlantı güvenli değil (HTTP)")
             default: Image(systemName: "magnifyingglass")
             }
-            TextField(tab.isPrivate ? "Gizli sekme — ara veya adres gir" : "Ara veya adres gir", text: $text)
+            TextField(tab.isPrivate ? L("Gizli sekme — ara veya adres gir") : L("Ara veya adres gir"), text: $text)
                 .textFieldStyle(.plain)
                 .font(.system(size: 13))
                 .focused($addressFocused)

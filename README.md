@@ -1,267 +1,261 @@
-# NOX Browser
+<p align="center">
+  <img src="NOX/Assets.xcassets/AppIcon.appiconset/icon_256.png" width="128" alt="NOX Browser icon">
+</p>
 
-macOS için WebKit tabanlı, hafif, siyah-gümüş-mor temalı yerel tarayıcı (Swift + SwiftUI + WKWebView).
-Hedef: macOS 14.0+ (Intel ve Apple Silicon, universal).
+<h1 align="center">NOX Browser</h1>
 
-## Durum (v0.7)
+<p align="center">
+  A lightweight, privacy-focused web browser for macOS, built natively with Swift, SwiftUI and WebKit.<br>
+  Built-in ad and tracker blocking, tab sleeping, a download manager, split view, workspaces and a command palette.
+</p>
 
-Çalışan ve sınanmış:
+<p align="center">
+  <a href="https://github.com/EmreSarikaya35/nox-browser/releases/latest"><img src="https://img.shields.io/github/v/release/EmreSarikaya35/nox-browser?label=download&color=7546C8" alt="Latest release"></a>
+  <img src="https://img.shields.io/badge/macOS-14%2B-09090D" alt="macOS 14 or later">
+  <img src="https://img.shields.io/badge/Intel%20%2B%20Apple%20Silicon-universal-C0C0CA" alt="Universal binary">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-A77BFF" alt="MIT License"></a>
+</p>
 
-- Çoklu sekme, sekme kapatma / yeniden açma (⌘T, ⌘W, ⇧⌘T, ⌃Tab)
-- Gizli sekme (⇧⌘N): kalıcı olmayan veri deposu, geçmişe yazılmaz, son gizli sekme kapanınca veriler silinir
-- Akıllı adres/arama çubuğu, geçmiş ve yer imlerinden otomatik tamamlama, arama motoru seçimi
-- Geri / ileri / yenile / durdur / ana sayfa, yükleme ilerleme çizgisi
-- Yer imleri (⌘D), yer imleri çubuğu (⇧⌘B), kenar çubuğunda yer imleri + geçmiş (⇧⌘L)
-- Başlangıç sayfası: saat, tarih, arama, favoriler
-- Sayfada bul (⌘F), yakınlaştırma (⌘= / ⌘- / ⌘0), tam ekran (yeşil düğme / video tam ekranı)
-- Oturum geri yükleme (sekmeler seçilene kadar yüklenmez), tarama verilerini temizleme (Ayarlar, ⌘,)
-- Geçersiz sertifikalar sessizce kabul edilmez; hata sayfası gösterilir
-- Kullanıcı tıklaması olmayan pop-up'lar engellenir; `target=_blank` bağlantılar yeni sekmede açılır
-- Pil: sekme başına WebView tembel oluşturulur; arka plan sekmeleri pencereden çıkarıldığı için WebKit
-  zamanlayıcılarını kendisi kısar; uygulamada polling/timer yok (saat dakikada bir güncellenir)
+## Download
 
-### Reklam ve takipçi engelleme (v0.2)
+Get the latest **[NOX DMG from Releases](https://github.com/EmreSarikaya35/nox-browser/releases/latest)**, open it and
+drag NOX to your Applications folder. Requires macOS 14 or later; runs on Intel and Apple Silicon Macs.
 
-Araç çubuğundaki kalkan düğmesi kontrol panelini açar.
+NOX is not signed with an Apple Developer ID. On first launch, right-click NOX in Finder and choose **Open**
+(or allow it in System Settings → Privacy & Security). Once it lives in `/Applications`, NOX keeps itself up to date.
 
-- EasyList + EasyPrivacy varsayılan açık; uBlock filters ve AdGuard Türkçe isteğe bağlı. Listeler ilk açılışta
-  indirilir, WebKit içerik engelleyicisine (WKContentRuleList) derlenir ve diskte önbelleklenir; 4 günde bir
-  arka planda güncellenir ("Listeleri Güncelle" ile elle de).
-- Ağ kuralları (alan adı, üçüncü taraf, kaynak türü, `domain=` seçenekleri), istisna (`@@`) kuralları ve
-  CSS tabanlı kozmetik filtreler desteklenir. Engelleme WebKit'in içinde yapılır; sayfaya JavaScript enjekte edilmez.
-- Site bazında kapatma (beyaz liste), genel aç/kapa, özel filtre ekleme, sayfa başına ve toplam engellenen istek sayacı.
-- Listeler uygulamayla dağıtılmaz, kendi sunucularından indirilir (EasyList: GPLv3 / CC BY-SA 3.0).
+## Features
 
-Bilinen sınırlar — her reklamı engelleme veya tespit edilmeme garantisi **yoktur**:
+- **Ad and tracker blocking** — EasyList and EasyPrivacy out of the box, compiled to WebKit content blockers. Per-site
+  toggle, custom filters, blocked-request counter.
+- **Easy on the battery** — background tabs go to sleep and release their web process; a battery saver mode and a
+  per-tab CPU / memory panel show what is actually using resources.
+- **Tabs your way** — favicons, drag to reorder, pinned tabs, vertical tabs, workspaces, split view and multiple windows.
+- **Command palette (⌘K)** — run commands, jump to an open tab, search bookmarks and history from one box.
+- **Download manager** — pause, resume and cancel; detects downloadable video and audio on the page, including
+  unprotected HLS streams.
+- **Privacy** — private tabs, clear-on-quit, per-site camera and microphone permissions, passwords stored in the
+  macOS Keychain, no telemetry.
+- **Dark web pages**, **picture in picture**, bookmark and password **import** from Safari, Chrome and Firefox.
+- **English and Turkish** interface, chosen automatically from the system language.
+- **A hidden game** — Spirit Quest: The Forgotten Shrine, an offline pixel-art RPG built into the browser.
 
-- WebKit'in ifade edemediği kurallar atlanır: uBlock scriptlet'leri (`##+js`), prosedürel kozmetik filtreler
-  (`:has-text` vb.), `redirect`/`csp`/`removeparam`, regex kuralları, kozmetik istisnalar (`#@#`), `~script` gibi
-  olumsuz tür seçenekleri. Bu yüzden YouTube gibi reklamı içerikle aynı sunucudan veren sitelerde video içi
-  reklamlar engellenmez ve bazı anti-adblock duvarları aşılmaz; böyle sitelerde panelden o site için kapatın.
-- Kozmetik istisnalar atlandığı için nadiren bir sitede gereğinden fazla öğe gizlenebilir.
-- Açılışta geri yüklenen ilk sayfa, listeler önbellekten okunmadan birkaç istek yapmış olabilir.
-- Sayaç WebKit'in özel (private) bir delegate çağrısını kullanır: App Store'a uygun değildir; WebKit kaldırırsa
-  sayaç 0 kalır, engelleme çalışmaya devam eder.
-- Üçüncü taraf çerezleri için ayrı bir anahtar yok; WebKit'in yerleşik izleme önleme (ITP) davranışı geçerlidir.
+## Details
 
-### Pil ve performans (v0.3)
+### Browsing
 
-Araç çubuğundaki hız göstergesi düğmesi paneli açar.
+- Multiple tabs, close and reopen (⌘T, ⌘W, ⇧⌘T, ⌃Tab)
+- Private tabs (⇧⌘N): non-persistent data store, nothing written to history, data dropped when the last private tab closes
+- Smart address and search bar with autocomplete from history and bookmarks; choice of search engine
+- Back, forward, reload, stop, home; loading progress line
+- Bookmarks (⌘D), bookmarks bar (⇧⌘B), sidebar with bookmarks and history (⇧⌘L)
+- Start page with clock, date, search, favorites and an optional background image
+- Find on page (⌘F), zoom (⌘= / ⌘- / ⌘0), full screen
+- Session restore (tabs load only when selected), clear browsing data (Settings, ⌘,)
+- Invalid certificates are never accepted silently; an error page is shown instead
+- Pop-ups without a user click are blocked; `target=_blank` links open in a new tab
 
-- **Sekme uyutma:** arka plandaki sekme 30 dk (pil tasarrufu modunda 5 dk) sonra uyutulur: WebView'ı ve web süreci
-  serbest bırakılır, sekme çubuğunda ay simgesi çıkar. Sekmeye dönünce sayfa geri/ileri geçmişiyle yeniden yüklenir.
-  Ses/video oynatan veya kamera/mikrofon kullanan sekme uyutulmaz. Panelden elle de uyutulabilir.
-- **Pil tasarrufu modu:** uyutma süresini kısaltır, arayüz animasyonlarını ve cam efektini kapatır
-  (sistemdeki "Hareketi azalt" ayarı da animasyonları kapatır).
-- **Otomatik oynatmayı engelle:** videolar kullanıcı tıklamadan başlamaz (yeni açılan/uyandırılan sekmelerde).
-- **Performans paneli:** arayüz süreci ve her sekme için CPU %, bellek ve saniyedeki uyanma sayısı; çekirdekten
-  (`proc_pid_rusage`) okunur, yalnızca panel açıkken 2 sn'de bir ölçülür.
+### Ad and tracker blocking
 
-Sınırlar:
+The shield button in the toolbar opens the control panel.
 
-- Uyutulan sekmede yarım kalmış form girdileri ve kaydırma konumu kaybolur.
-- Gömülü (iframe) oynatıcılardaki medya fark edilmez; böyle bir sekme arka planda uyutulabilir.
-- Web sayfalarının kendi animasyonlarına ve medya yüklemelerine müdahale edilmez (siteleri bozmamak için).
-- Sekme → süreç eşlemesi WebKit'in özel `_webProcessIdentifier` özelliğini kullanır; kaldırılırsa sekme satırları boş kalır.
-- WebKit'in paylaşılan ağ ve GPU süreçleri panelde yok; Safari ile karşılaştırmalı bir pil ölçümü yapılmadı.
+- EasyList and EasyPrivacy are on by default; uBlock filters and AdGuard Turkish are optional. Lists are downloaded on
+  first launch, compiled to WebKit content rule lists (`WKContentRuleList`), cached on disk and refreshed in the
+  background every four days.
+- Network rules (domain, third-party, resource type, `domain=` options), exception (`@@`) rules and CSS cosmetic filters
+  are supported. Blocking happens inside WebKit; no JavaScript is injected into pages.
+- Per-site allow list, global on/off, custom filters, per-page and total blocked counters.
+- Filter lists are not bundled; they are fetched from their own servers (EasyList: GPLv3 / CC BY-SA 3.0).
 
-### İndirme yöneticisi ve medya indirme (v0.4)
+Known limits — there is **no** guarantee of blocking every ad or of going undetected:
 
-Araç çubuğundaki indirme düğmesi (⌥⌘L) paneli açar; etkin indirme sayısı düğmede görünür.
+- Rules that WebKit cannot express are skipped: uBlock scriptlets (`##+js`), procedural cosmetic filters (`:has-text`
+  etc.), `redirect` / `csp` / `removeparam`, regex rules, cosmetic exceptions (`#@#`) and negated type options such as
+  `~script`. As a result, in-video ads on sites that serve ads from the same servers as content (YouTube, for example)
+  are not blocked and some anti-adblock walls are not bypassed; turn blocking off for such a site from the panel.
+- Because cosmetic exceptions are skipped, a site may occasionally have too much hidden.
+- The first page restored at launch may make a few requests before the lists are read from cache.
+- The counter relies on a private WebKit delegate call: it is not App Store compatible, and if WebKit removes it the
+  counter stays at 0 while blocking keeps working.
+- There is no separate third-party cookie switch; WebKit's built-in tracking prevention applies.
 
-- **Dosya indirme:** tarayıcının gösteremediği veya sunucunun "ek" olarak işaretlediği içerik indirilir. İlerleme,
-  dosya boyutu, duraklat / devam et / iptal, aynı anda birden fazla indirme, Finder'da göster, indirme geçmişi.
-- **Sayfadaki medya:** panel açıldığında sayfadaki `<video>`/`<audio>` kaynakları ve medya dosyası bağlantıları
-  listelenir; site birden fazla kaynak sunuyorsa (ör. MP4 ve WebM, farklı çözünürlükler) her biri biçimi,
-  çözünürlüğü ve boyutuyla ayrı satırdır.
-- **Konum:** varsayılan `~/İndirilenler`; panelin altındaki "Değiştir…" ile seçilir. Var olan dosyanın üzerine
-  yazılmaz ("ad (2).mp4").
-- **Bildirim:** indirme bitince sistem bildirimi (ilk indirmede izin istenir; uygulama öndeyken macOS göstermez).
-- **Güvenlik:** sunucunun önerdiği dosya adından yol bileşenleri atılır, dosyalar otomatik açılmaz, WebKit
-  karantina işareti koyar; gömülü çerçeveler (reklam vb.) kendiliğinden dosya indirtemez. Gizli sekme
-  indirmeleri geçmişe yazılmaz.
-- Üçüncü taraf araç (yt-dlp, ffmpeg vb.) kullanılmaz; indirmeler WebKit'in WKDownload API'siyle yapılır.
+### Battery and performance
 
-Desteklenmeyenler — bunlar listede nedeniyle birlikte görünür, indirme düğmesi gösterilmez:
+The gauge button in the toolbar opens the panel.
 
-- **YouTube, Netflix, Spotify ve benzeri** akış tabanlı (MSE/`blob:`) veya DRM korumalı oynatıcılar. Korumalar aşılmaz.
-- **DASH akışları** (`.mpd`) ile şifreli veya canlı HLS akışları.
-- Başka siteden gömülen (iframe) oynatıcılardaki medya tespit edilmez.
-- Duraklatılmış indirmeler uygulama kapanınca kaybolur; yarım dosya indirme klasöründe kalır.
-- Sunucu aralık isteğini desteklemiyorsa duraklatılan indirme devam ettirilemez.
+- **Tab sleeping:** a background tab sleeps after 30 minutes (5 in battery saver mode): its web view and web process
+  are released. Returning to the tab reloads the page with its back/forward history. Tabs playing audio or video, or
+  using the camera or microphone, are not put to sleep. Tabs can also be put to sleep manually.
+- **Battery saver mode:** shortens the sleep delay and turns off interface animations and the glass effect. An option
+  turns it on automatically when the Mac is running on battery (off by default).
+- **Block autoplay:** videos do not start without a click.
+- **Performance panel:** CPU %, memory and wakeups per second for the interface process and each tab, read from the
+  kernel (`proc_pid_rusage`) and measured only while the panel is open.
 
-### Gizlilik, izinler ve parolalar (v0.5)
+Limits: a sleeping tab loses unsaved form input and scroll position; media inside embedded (iframe) players is not
+detected; the tab-to-process mapping uses a private WebKit property; WebKit's shared network and GPU processes are not
+shown. No battery-life figures are claimed — measure with the panel or Activity Monitor → Energy.
 
-- **Site izinleri:** bir site kamera veya mikrofon istediğinde sorulur (varsayılan düğme "Reddet"); karar site
-  bazında hatırlanır ve Ayarlar → Gizlilik'ten sıfırlanır. Gizli sekmede karar hatırlanmaz. macOS ayrıca NOX'un
-  kendisi için bir kez sistem izni ister.
-- **Kapatırken temizle:** Ayarlar → Gizlilik. Açıkken çıkışta geçmiş, çerezler ve site verileri silinir, oturum
-  geri yüklenmez. "Şimdi Temizle" düğmesi de aynı yerde.
-- **Parolalar (Anahtar Zinciri):** araç çubuğundaki anahtar düğmesi. Forma yazdığınız girişi "Sayfadaki Girişi
-  Kaydet" ile saklar, sonraki ziyarette "Doldur" ile forma yazar (form gönderilmez). Parolalar yalnızca macOS
-  Anahtar Zinciri'nde durur; Ayarlar → Parolalar'dan kopyalanır veya silinir. Yalnızca HTTPS sayfalarda ve
-  yalnızca tam eşleşen alan adında çalışır.
-- **Başlangıç sayfası arka planı:** Ayarlar → Genel'den bir görsel seçilir.
-- **Açılış sesi:** uygulama her başlatıldığında `NOX/Resources/startup.mp3` (2 sn) çalar. Değiştirmek için dosyayı
-  değiştirin, kapatmak için silin ve yeniden derleyin.
+### Downloads and media
 
-Sınırlar:
+The download button (⌥⌘L) opens the panel and shows the number of active downloads.
 
-- Parola kaydı ve doldurma elle tetiklenir; giriş yapınca otomatik "kaydedeyim mi?" sorusu yok.
-- Uygulama ad-hoc imzalı olduğu için her yeni derlemeden sonra macOS, kayıtlı bir parolayı okurken oturum
-  parolanızı sorar ("Her Zaman İzin Ver" denebilir). Developer ID imzasıyla bu kaybolur.
-- Başka siteden gömülen (iframe) giriş formları doldurulmaz.
+- **Files:** content the browser cannot display, or that the server marks as an attachment, is downloaded. Progress,
+  size, pause / resume / cancel, simultaneous downloads, Show in Finder, download history.
+- **Media on the page:** `<video>` / `<audio>` sources and links to media files are listed with format, resolution and
+  size. Unprotected HLS (`.m3u8`) streams are downloaded at the highest quality and joined into one file.
+- **Location:** `~/Downloads` by default, changeable from the panel. Existing files are never overwritten.
+- **Safety:** path components are stripped from server-suggested file names, files are never opened automatically,
+  WebKit applies the quarantine flag, embedded frames cannot trigger downloads, and private-tab downloads are not
+  written to history.
+- No third-party tools (yt-dlp, ffmpeg, …) are used.
 
-### Gömülü oyun: Spirit Quest (v0.6)
+Not supported (listed with the reason, without a download button): streaming or DRM-protected players such as YouTube,
+Netflix and Spotify — protections are not circumvented; DASH (`.mpd`) streams; encrypted or live HLS streams. MPEG-TS
+HLS streams are saved as `.ts` (playable in VLC or IINA, not QuickTime). Paused downloads are lost when the app quits.
 
-Başlangıç sayfasındaki "Spirit Quest: The Forgotten Shrine" düğmesi veya Gezinme → Spirit Quest'i Oyna (⇧⌘G).
+### Privacy, permissions and passwords
 
-- Oyun uygulama paketinin içindedir (`SpiritQuest/`), ağ gerektirmez ve `nox://game/` iç adresinden açılır.
-- Kayıtlar tarayıcının site verilerinde tutulur: "tarama verilerini temizle" veya "kapatırken temizle" oyun kaydını
-  da siler; gizli sekmede kayıt kalıcı olmaz.
-- Oyunun kendi belgeleri, kontrolleri ve test durumu: [SpiritQuest/README.md](SpiritQuest/README.md).
+- **Site permissions:** when a site asks for the camera or microphone you are prompted (the default button is Deny);
+  the decision is remembered per site and can be reset in Settings → Privacy. Private tabs never remember it.
+- **Clear on quit:** history, cookies and site data are removed on exit and the session is not restored.
+- **Passwords (Keychain):** the key button saves the login typed into a page and fills it on a later visit (the form
+  is never submitted for you). Passwords live only in the macOS Keychain, work only on HTTPS pages and only on the exact
+  host they were saved for.
+- **No telemetry.** The only requests NOX makes on its own are filter list updates, favicons and the update check.
 
-### Sekmeler, pencereler ve görünüm (v0.7)
+Limits: saving and filling passwords is manual; because the app is ad-hoc signed, macOS asks for your login password
+when a new build first reads a saved password; login forms inside embedded frames are not filled.
 
-- **Sekme simgeleri (favicon):** sekmelerde, yer imleri çubuğunda ve başlangıç sayfasında. Alan adına göre önbelleklenir;
-  gizli sekmelerin simgeleri diske yazılmaz, "tarama verilerini temizle" önbelleği de siler.
-- **Sürükleyip sıralama ve sabitleme:** sekmeler fareyle taşınır. Sabitlenen sekme başa geçer ve yalnızca simgesiyle
-  görünür (sekmeye sağ tık → Sekmeyi Sabitle).
-- **Çalışma alanları:** "İş", "Okul" gibi ayrı sekme setleri. Ayarlar → Genel'den eklenir ve silinir; ikinci bir alan
-  eklenince sekme çubuğunun solunda alan değiştirici belirir. Sekme sağ tıkla başka alana taşınır. Alanlar ve
-  sabitlemeler oturumla birlikte kaydedilir.
-- **Dikey sekmeler:** Görünüm → Dikey Sekmeler; sekmeler pencerenin solunda liste olur.
-- **Bölünmüş görünüm (⌃⌘S):** iki sekme yan yana. Adres çubuğu ve araçlar soldaki sekmeye aittir; sağ bölmenin
-  başlığındaki düğmeyle bölmeler yer değiştirir.
-- **Çoklu pencere (⌘N):** her pencerenin kendi sekmeleri vardır; geçmiş, yer imleri, indirmeler ve parolalar ortaktır.
-- **Komut paleti (⌘K):** tek kutudan komut çalıştırma, açık sekmeye geçme, yer imi ve geçmişte arama.
-- **Web sayfalarını karart (⇧⌘K):** açık zeminli siteleri koyulaştırır; kendi koyu teması olan sitelere dokunmaz.
-  Varsayılan kapalıdır.
-- **Resim içinde resim (⌥⌘P):** sayfadaki videoyu küçük, hep üstte duran pencereye alır.
-- **İçe aktarma:** Ayarlar → Genel. Yer imleri için Safari/Chrome/Firefox'un dışa aktardığı HTML dosyası, parolalar
-  için CSV dosyası (parolalar Anahtar Zinciri'ne yazılır).
-- **HLS indirme:** korumasız `.m3u8` akışları indirmeler panelinde listelenir; en yüksek kalite seçilir ve parçalar
-  tek dosyada birleştirilir.
-- **Otomatik güncelleme:** günde bir kez GitHub Releases'e bakar. Uygulama `/Applications` içindeyse yeni sürümü indirip
-  yerine kurar ve sekme çubuğunda "Yeniden Başlat" düğmesi gösterir; değilse "Güncelle" düğmesi indirme sayfasını açar.
-  NOX menüsü → Güncellemeleri Denetle… ile elle de bakılır. Ayarlar'dan kapatılabilir.
-- **Pildeyken otomatik pil tasarrufu:** pil/performans panelindeki ayar. Varsayılan kapalıdır; açılırsa şarjdan
-  çıkınca pil tasarrufu açılır, şarja takılınca kapanır.
+### Tabs, windows and appearance
 
-Sınırlar:
+- **Favicons** in tabs, the bookmarks bar and the start page
+- **Drag to reorder and pin:** pinned tabs move to the front and show only their icon
+- **Workspaces:** separate sets of tabs such as "Work" or "School", added in Settings → General; the switcher appears in
+  the tab bar once a second workspace exists
+- **Vertical tabs**, **split view** (⌃⌘S) and **multiple windows** (⌘N)
+- **Command palette** (⌘K)
+- **Darken web pages** (⇧⌘K): darkens light sites and leaves sites with their own dark theme alone; off by default
+- **Picture in picture** (⌥⌘P)
+- **Import:** bookmarks from an exported HTML file, passwords from a CSV file (Safari, Chrome, Firefox)
+- **Automatic updates:** checks GitHub Releases once a day; when installed in `/Applications` it downloads and installs
+  the new version and offers a Restart button
 
-- Yalnızca ilk pencerenin oturumu kaydedilir; diğer pencerelerin sekmeleri yeniden açılışta geri gelmez.
-- Web karartma, renkleri ters çevirerek çalışır: logo gibi koyu renkli görseller görünmez olabilir, bazı sitelerde
-  renkler tuhaflaşır. Böyle sitelerde kapatın.
-- HLS: şifreli (AES/DRM) akışlar ve canlı yayınlar indirilmez. MPEG-TS akışları `.ts` olarak kaydedilir (VLC veya
-  IINA oynatır, QuickTime oynatmaz); sayfanın çerezleri kullanılmadığı için oturum gerektiren akışlar başarısız olur.
-  HLS indirmesi duraklatılamaz, yalnızca iptal edilir.
-- Resim içinde resim WebKit'in özel bir tercihiyle açılır; Apple bu tercihi kaldırırsa çalışmaz.
-- Otomatik güncelleme, paketin GitHub'daki bu depodan geldiğini ve paket kimliği ile sürümünü denetler; uygulama
-  Developer ID ile imzalı olmadığı için kriptografik imza doğrulaması yoktur.
-- Bölünmüş görünümde sağ bölmenin kendi adres çubuğu yoktur.
+Limits: only the first window's session is saved; page darkening works by inverting colors, so dark logos can disappear
+and some sites look odd; the right pane of split view has no address bar of its own; picture in picture depends on a
+private WebKit preference; updates are verified by source repository, bundle identifier and version, not by a
+cryptographic signature.
 
-### Bu sürümde olmayanlar
+### Language
 
-Teknik nedenle yapılmayan veya ertelenenler:
+The interface is available in English and Turkish. If the primary macOS language is Turkish, NOX opens in Turkish;
+with any other language it opens in English. Change it in Settings → General → Language (takes effect after a restart).
+Source strings in the code are Turkish; English translations live in `NOX/en.lproj/Localizable.strings`.
+The built-in Spirit Quest game is Turkish only.
 
-- **Web bildirimleri:** WKWebView, sitelerin bildirim göndermesi için herkese açık bir API sunmuyor; siteler
-  bildirim izni isteyemez. (İndirme tamamlanma bildirimi çalışır.)
-- **Konum izni:** desteklenmiyor; siteler konum alamaz.
-- **Eklenti sistemi:** Chrome eklentileri WebKit'te çalışmaz. Apple'ın WKWebView için Safari Web Extension
-  desteği (`WKWebExtension`) hedeflenen macOS 14'ten daha yeni bir sürüm gerektirdiği için eklenmedi.
-- **Üçüncü taraf çerez anahtarı:** WKWebView'da herkese açık bir ayarı yok; WebKit'in yerleşik izleme önlemesi geçerli.
-- **YouTube video içi reklamları, DASH indirme:** yukarıdaki bölümlerde açıklandı.
-- Okuma modu, gizlilik raporu.
+### Built-in game: Spirit Quest
 
-Pil ömrü için rakamsal bir iddia yok; ölçüm için performans panelini veya Etkinlik Monitörü → Enerji sekmesini kullanın.
+Open it from the start page or with Navigate → Play Spirit Quest (⇧⌘G). The game ships inside the app bundle
+(`SpiritQuest/`), needs no network and is served from the internal `nox://game/` address. Saves live in the browser's
+site data, so clearing browsing data removes them. See [SpiritQuest/README.md](SpiritQuest/README.md).
 
-## Kurulum ve derleme
+### Not included
 
-Gereken: Xcode 15+ ve [XcodeGen](https://github.com/yonaskolb/XcodeGen) (`brew install xcodegen`).
-Xcode projesi `project.yml` dosyasından üretilir.
+- **Web notifications and location:** WKWebView offers no public API for them, so sites cannot request either
+- **Extensions:** Chrome extensions do not run on WebKit, and Apple's `WKWebExtension` support needs a newer macOS
+  than the macOS 14 target
+- Reader mode and a privacy report
+
+## Build from source
+
+Requires Xcode 15 or later and [XcodeGen](https://github.com/yonaskolb/XcodeGen) (`brew install xcodegen`).
+The Xcode project is generated from `project.yml`.
 
 ```bash
 xcodegen generate
-open NOX.xcodeproj        # Xcode'da ⌘R ile çalıştır
+open NOX.xcodeproj        # run with ⌘R in Xcode
 ```
 
-Komut satırından:
+From the command line:
 
 ```bash
 xcodebuild -project NOX.xcodeproj -scheme NOX -configuration Debug -derivedDataPath build build
 open build/Build/Products/Debug/NOX.app
 ```
 
-## Test ve hata ayıklama
+Build a universal (Intel + Apple Silicon) DMG:
+
+```bash
+Scripts/make-dmg.sh       # build/NOX.dmg
+```
+
+The app icon is generated from `Scripts/logo.jpg`; replace it and run `Scripts/make-icon.sh`.
+
+## Tests and debugging
 
 ```bash
 xcodebuild -project NOX.xcodeproj -scheme NOX -derivedDataPath build test
 ```
 
-- Birim testleri: `NOXTests/` (adres çözümleme, filtre dönüştürücü, süreç ölçümü, indirme adları, medya ayrıştırma,
-  Anahtar Zinciri, içe aktarma, HLS ayrıştırma ve indirme, sürüm karşılaştırma).
-- Filtre listesi indirme/derleme hataları panelde ve Console'da `NOX AdBlock` önekiyle görünür.
-- Web içeriğini incelemek için Debug derlemesinde Safari → Develop menüsü kullanılabilir
-  (gerekirse `Tab.makeWebView` içinde `w.isInspectable = true`).
-- Veriler: `~/Library/Application Support/NOX/` (history.json, bookmarks.json, downloads.json); ayarlar `defaults read com.nox.browser`.
-- Sekme uyutmayı hızlı sınamak için: `defaults write com.nox.browser sleepDelay -int 10` (geri almak için `defaults delete com.nox.browser sleepDelay`).
-- Sertifika hatası sınaması: `https://expired.badssl.com`.
+- Unit tests live in `NOXTests/`: address resolution, filter conversion, process sampling, download names, media
+  parsing, Keychain, import, HLS parsing and download, version comparison, language selection.
+- Filter list download and compile errors appear in the panel and in Console with the `NOX AdBlock` prefix.
+- Data is stored in `~/Library/Application Support/NOX/`; settings via `defaults read com.nox.browser`.
+- To test tab sleeping quickly: `defaults write com.nox.browser sleepDelay -int 10`.
+- To test certificate errors: `https://expired.badssl.com`.
 
-## DMG
+## Signing and notarization
 
-```bash
-Scripts/make-dmg.sh       # build/NOX.dmg (x86_64 + arm64, Release)
-```
+The project is ad-hoc signed (`CODE_SIGN_IDENTITY = "-"`), so Gatekeeper warns when the DMG is opened on another Mac.
+For warning-free distribution:
 
-İkon `Scripts/logo.jpg` dosyasından üretilir; logoyu değiştirip `Scripts/make-icon.sh` çalıştırın.
-
-## İmza ve notarization
-
-Proje ad-hoc imzalıdır (`CODE_SIGN_IDENTITY = "-"`): kendi Mac'inizde çalışır. Başka bir Mac'e DMG ile
-taşındığında Gatekeeper uyarır (sağ tık → Aç ile açılabilir). Uyarısız dağıtım için:
-
-1. Apple Developer Program üyeliği ve "Developer ID Application" sertifikası
-2. `project.yml` içinde `DEVELOPMENT_TEAM` ve `CODE_SIGN_IDENTITY: "Developer ID Application"`
-   (Release'te Hardened Runtime zaten açık)
-3. `xcrun notarytool submit build/NOX.dmg --keychain-profile <profil> --wait`
+1. Join the Apple Developer Program and create a "Developer ID Application" certificate
+2. Set `DEVELOPMENT_TEAM` and `CODE_SIGN_IDENTITY: "Developer ID Application"` in `project.yml`
+   (Hardened Runtime is already on for Release)
+3. `xcrun notarytool submit build/NOX.dmg --keychain-profile <profile> --wait`
 4. `xcrun stapler staple build/NOX.dmg`
 
-## Mimari
+## Architecture
 
-| Dosya | Sorumluluk |
+| File | Responsibility |
 |---|---|
-| `NOX/Tab.swift` | Tek sekme: WKWebView yaşam döngüsü, gezinme/UI delegeleri, bul, yakınlaştırma |
-| `NOX/TabManager.swift` | Bir pencerenin sekmeleri: çalışma alanları, sabitleme, bölünmüş görünüm, oturum kaydı |
-| `NOX/AdBlockConverter.swift` | Adblock Plus sözdizimi → WebKit içerik engelleyici kuralları |
-| `NOX/AdBlockEngine.swift` | Filtre listelerini indirme/derleme/güncelleme, beyaz liste, sayaç |
-| `NOX/AdBlockPanel.swift` | Reklam engelleyici kontrol paneli |
-| `NOX/DownloadManager.swift` | WKDownload tabanlı indirmeler, duraklat/devam, geçmiş, güvenli dosya adları |
-| `NOX/MediaDetector.swift` | Sayfadaki indirilebilir medya kaynaklarının tespiti |
-| `NOX/DownloadsPanel.swift` | İndirmeler ve sayfa medyası paneli |
-| `NOX/Services.swift` | Pencereler arası paylaşılan servisler, favicon önbelleği, güç izleme, güncelleme denetimi |
-| `NOX/CommandPalette.swift` | Komut paleti |
-| `NOX/Importer.swift` | Yer imi (HTML) ve parola (CSV) içe aktarma |
-| `NOX/HLS.swift` | HLS çalma listesi ayrıştırma ve indirme |
-| `NOX/GameSchemeHandler.swift` | Gömülü oyunu `nox://game/` adresinden sunar |
-| `NOX/PrivacyManager.swift` | Site bazında kamera/mikrofon izinleri, kapanışta temizleme |
-| `NOX/PasswordManager.swift` | Anahtar Zinciri'nde parola saklama |
-| `NOX/PasswordPanel.swift` | Parola kaydetme/doldurma paneli |
-| `NOX/Settings.swift` | Ayarlar penceresi (Genel, Gizlilik, Parolalar) |
-| `NOX/PerformanceMonitor.swift` | Süreç başına CPU/bellek/uyanma ölçümü |
-| `NOX/PerformancePanel.swift` | Pil tasarrufu ayarları ve performans paneli |
-| `NOX/SiteStore.swift` | Geçmiş ve yer imleri için JSON depo |
-| `NOX/URLResolver.swift` | Girdi → URL veya arama; arama motorları |
-| `NOX/BrowserView.swift` | Sekme çubuğu, araç çubuğu, sayfa alanı, bul çubuğu, öneriler |
-| `NOX/Panels.swift` | Başlangıç sayfası, yer imleri çubuğu, kenar çubuğu |
-| `NOX/NOXApp.swift` | Uygulama girişi, menü/klavye kısayolları |
-| `NOX/Theme.swift` | Renk paleti, ikon düğmesi |
+| `NOX/Tab.swift` | A single tab: WKWebView lifecycle, navigation and UI delegates, find, zoom, sleeping |
+| `NOX/TabManager.swift` | One window's tabs: workspaces, pinning, split view, session saving |
+| `NOX/AdBlockConverter.swift` | Adblock Plus syntax → WebKit content blocker rules |
+| `NOX/AdBlockEngine.swift` | Downloading, compiling and updating filter lists; allow list; counter |
+| `NOX/AdBlockPanel.swift` | Ad blocker control panel |
+| `NOX/DownloadManager.swift` | WKDownload-based downloads, pause/resume, history, safe file names |
+| `NOX/MediaDetector.swift` | Finds downloadable media sources on a page |
+| `NOX/HLS.swift` | HLS playlist parsing and download |
+| `NOX/DownloadsPanel.swift` | Downloads and page media panel |
+| `NOX/Services.swift` | Services shared between windows, favicon cache, power monitoring, updater |
+| `NOX/CommandPalette.swift` | Command palette |
+| `NOX/Importer.swift` | Bookmark (HTML) and password (CSV) import |
+| `NOX/GameSchemeHandler.swift` | Serves the built-in game from `nox://game/` |
+| `NOX/PrivacyManager.swift` | Per-site camera and microphone permissions, clear on quit |
+| `NOX/PasswordManager.swift` | Password storage in the Keychain |
+| `NOX/PasswordPanel.swift` | Save and fill password panel |
+| `NOX/Settings.swift` | Settings window (General, Privacy, Passwords) |
+| `NOX/PerformanceMonitor.swift` | Per-process CPU, memory and wakeup sampling |
+| `NOX/PerformancePanel.swift` | Battery saver settings and performance panel |
+| `NOX/SiteStore.swift` | JSON store for history and bookmarks |
+| `NOX/URLResolver.swift` | Input → URL or search; search engines |
+| `NOX/BrowserView.swift` | Tab bar, toolbar, page area, find bar, suggestions |
+| `NOX/Panels.swift` | Start page, bookmarks bar, sidebar |
+| `NOX/NOXApp.swift` | App entry point, menus and keyboard shortcuts |
+| `NOX/Theme.swift` | Color palette, icon button, language selection |
 
-## Lisans
+## License
 
 [MIT](LICENSE)
 
-## Emeği geçenler
+## Credits
 
-- **Tasarım:** Burak Sarıkaya
-- **Geliştirme:** Emre Sarıkaya
+- **Design:** Burak Sarıkaya
+- **Development:** Emre Sarıkaya
+
+---
+
+<p align="center">
+  <a href="README.tr.md"><img src="https://img.shields.io/badge/README-T%C3%BCrk%C3%A7e-7546C8?style=for-the-badge" alt="Türkçe README"></a>
+</p>

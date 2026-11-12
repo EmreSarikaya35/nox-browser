@@ -50,9 +50,9 @@ extension HLSPlaylist {
         if let best = list.variants.max(by: { $0.bandwidth < $1.bandwidth }) {
             list = parse(String(decoding: try await fetch(best.url), as: UTF8.self), base: best.url)
         }
-        if list.encrypted { throw HLSError("Akış şifreli veya korumalı; indirilemez.") }
-        if !list.ended { throw HLSError("Canlı yayınlar indirilemez.") }
-        if list.byteRanges || list.segments.isEmpty { throw HLSError("Bu akış biçimi desteklenmiyor.") }
+        if list.encrypted { throw HLSError(L("Akış şifreli veya korumalı; indirilemez.")) }
+        if !list.ended { throw HLSError(L("Canlı yayınlar indirilemez.")) }
+        if list.byteRanges || list.segments.isEmpty { throw HLSError(L("Bu akış biçimi desteklenmiyor.")) }
 
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         let dest = DownloadManager.uniqueURL(in: folder, name: name + (list.initSegment == nil ? ".ts" : ".mp4"))

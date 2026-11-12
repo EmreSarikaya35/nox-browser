@@ -4,7 +4,8 @@ import WebKit
 /// Bir pencerenin sekmeleri. Geçmiş, yer imleri, reklam engelleyici vb. `Services` üzerinden pencereler arasında paylaşılır.
 @MainActor
 final class TabManager: ObservableObject {
-    static let defaultWorkspace = "Genel"
+    static let defaultWorkspace = "Genel" // kayıtlarda kullanılan sabit ad; ekranda `displayName` ile çevrilir
+    static func displayName(_ workspace: String) -> String { workspace == defaultWorkspace ? L("Genel") : workspace }
     /// Oturumu geri yükleyen ve kaydeden pencere (ilk açılan; kapanırsa sonraki açılan devralır).
     private static weak var primary: TabManager?
 

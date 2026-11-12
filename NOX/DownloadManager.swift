@@ -102,7 +102,7 @@ final class DownloadManager: NSObject, ObservableObject, WKDownloadDelegate {
     /// Gezinmenin dönüştüğü indirmeyi devralır.
     func adopt(_ download: WKDownload, from webView: WKWebView, isPrivate: Bool) {
         let url = download.originalRequest?.url
-        let item = DownloadItem(source: url, isPrivate: isPrivate, filename: url?.lastPathComponent ?? "indirilen")
+        let item = DownloadItem(source: url, isPrivate: isPrivate, filename: url?.lastPathComponent ?? L("indirilen"))
         item.webView = webView
         attach(download, to: item)
         items.insert(item, at: 0)
@@ -145,7 +145,7 @@ final class DownloadManager: NSObject, ObservableObject, WKDownloadDelegate {
         item.state = .paused
         Task {
             item.resumeData = await d.cancel()
-            if item.resumeData == nil { item.state = .failed("Sunucu devam ettirmeyi desteklemiyor") ; save() }
+            if item.resumeData == nil { item.state = .failed(L("Sunucu devam ettirmeyi desteklemiyor")) ; save() }
         }
     }
 
@@ -215,7 +215,7 @@ final class DownloadManager: NSObject, ObservableObject, WKDownloadDelegate {
         item.state = .finished
         save()
         let content = UNMutableNotificationContent()
-        content.title = "İndirme tamamlandı"
+        content.title = L("İndirme tamamlandı")
         content.body = item.filename
         UNUserNotificationCenter.current().add(UNNotificationRequest(identifier: item.id.uuidString, content: content, trigger: nil))
     }
@@ -236,7 +236,7 @@ final class DownloadManager: NSObject, ObservableObject, WKDownloadDelegate {
             .replacingOccurrences(of: ":", with: "-")
             .trimmingCharacters(in: .whitespacesAndNewlines)
             .drop { $0 == "." }
-        return name.isEmpty || name == "/" ? "indirilen" : String(name)
+        return name.isEmpty || name == "/" ? L("indirilen") : String(name)
     }
 
     /// Var olan dosyanın üzerine yazmamak için "ad (2).uzantı" biçiminde boş bir ad bulur.

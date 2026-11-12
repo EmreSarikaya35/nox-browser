@@ -44,23 +44,23 @@ enum MediaDetector {
 
             var reason: String?
             if scheme == "blob" || scheme == "mediasource" {
-                reason = "Akış tabanlı veya korumalı oynatıcı — indirilemez"
+                reason = L("Akış tabanlı veya korumalı oynatıcı — indirilemez")
             } else if ext == "mpd" || type.contains("dash") {
-                reason = "DASH akışı — desteklenmiyor"
+                reason = L("DASH akışı — desteklenmiyor")
             } else if scheme != "http" && scheme != "https" { continue }
 
             let kind = d["kind"] as? String
             // <video> içindeki .ogg gibi kaynaklar videodur; uzantıya yalnızca düz bağlantılarda bakılır.
             let isAudio = kind == "audio" || (kind != "video" && (audioExtensions.contains(ext) || type.hasPrefix("audio/")))
-            var parts = [isAudio ? "Ses" : "Video"]
+            var parts = [isAudio ? L("Ses") : L("Video")]
             if w > 0, h > 0 { parts.append("\(w)×\(h)") } else if h > 0 { parts.append("\(h)p") }
             let format = ext.isEmpty ? (type.split(separator: ";").first?.split(separator: "/").last.map(String.init) ?? "") : ext
             if !format.isEmpty { parts.append(format.uppercased()) }
 
-            let name = url.map { $0.lastPathComponent.isEmpty ? ($0.host ?? s) : $0.lastPathComponent } ?? "Gömülü oynatıcı"
+            let name = url.map { $0.lastPathComponent.isEmpty ? ($0.host ?? s) : $0.lastPathComponent } ?? L("Gömülü oynatıcı")
             let isHLS = reason == nil && (ext == "m3u8" || type.contains("mpegurl"))
-            if isHLS { parts.append("HLS akışı") }
-            out.append(MediaCandidate(url: reason == nil ? url : nil, name: scheme == "blob" ? "Gömülü oynatıcı" : name,
+            if isHLS { parts.append(L("HLS akışı")) }
+            out.append(MediaCandidate(url: reason == nil ? url : nil, name: scheme == "blob" ? L("Gömülü oynatıcı") : name,
                                       label: parts.joined(separator: " · "), unsupportedReason: reason, isHLS: isHLS))
         }
         return out

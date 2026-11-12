@@ -6,7 +6,6 @@ final class PrivacyManager: ObservableObject {
     /// host → ["camera": true/false, "microphone": true/false]
     @Published private(set) var permissions: [String: [String: Bool]]
     private let defaults = UserDefaults.standard
-    private static let names = ["camera": "kameranızı", "microphone": "mikrofonunuzu"]
 
     init() { permissions = defaults.dictionary(forKey: "sitePermissions") as? [String: [String: Bool]] ?? [:] }
 
@@ -15,12 +14,13 @@ final class PrivacyManager: ObservableObject {
         let stored = kinds.compactMap { permissions[host]?[$0] }
         if stored.count == kinds.count { return !stored.contains(false) }
         let alert = NSAlert()
-        alert.messageText = "\(host) \(kinds.compactMap { Self.names[$0] }.joined(separator: " ve ")) kullanmak istiyor"
+        alert.messageText = kinds.count > 1 ? L("\(host) kameranızı ve mikrofonunuzu kullanmak istiyor")
+            : kinds.first == "camera" ? L("\(host) kameranızı kullanmak istiyor") : L("\(host) mikrofonunuzu kullanmak istiyor")
         alert.informativeText = remember
-            ? "Seçiminiz bu site için hatırlanır; Ayarlar → Gizlilik bölümünden sıfırlayabilirsiniz."
-            : "Gizli sekmede seçiminiz hatırlanmaz."
-        alert.addButton(withTitle: "Reddet") // varsayılan (Enter) düğme reddetmektir
-        alert.addButton(withTitle: "İzin Ver")
+            ? L("Seçiminiz bu site için hatırlanır; Ayarlar → Gizlilik bölümünden sıfırlayabilirsiniz.")
+            : L("Gizli sekmede seçiminiz hatırlanmaz.")
+        alert.addButton(withTitle: L("Reddet")) // varsayılan (Enter) düğme reddetmektir
+        alert.addButton(withTitle: L("İzin Ver"))
         let allow = alert.runModal() == .alertSecondButtonReturn
         if remember {
             for kind in kinds { permissions[host, default: [:]][kind] = allow }

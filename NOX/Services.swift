@@ -224,20 +224,20 @@ final class Updater: ObservableObject {
             let result = await check()
             let alert = NSAlert()
             if let installed {
-                alert.messageText = "NOX \(installed) kuruldu"
-                alert.informativeText = "Yeni sürüm, uygulama yeniden başlatılınca devreye girer."
-                alert.addButton(withTitle: "Yeniden Başlat")
-                alert.addButton(withTitle: "Sonra")
+                alert.messageText = L("NOX \(installed) kuruldu")
+                alert.informativeText = L("Yeni sürüm, uygulama yeniden başlatılınca devreye girer.")
+                alert.addButton(withTitle: L("Yeniden Başlat"))
+                alert.addButton(withTitle: L("Sonra"))
                 if alert.runModal() == .alertFirstButtonReturn { relaunch() }
             } else if let available {
-                alert.messageText = "Yeni sürüm var: \(available.version)"
-                alert.informativeText = "Otomatik kurulamadı (uygulama Uygulamalar klasöründe olmalı). İndirme sayfasını açmak ister misiniz?"
-                alert.addButton(withTitle: "İndirme Sayfasını Aç")
-                alert.addButton(withTitle: "Sonra")
+                alert.messageText = L("Yeni sürüm var: \(available.version)")
+                alert.informativeText = L("Otomatik kurulamadı (uygulama Uygulamalar klasöründe olmalı). İndirme sayfasını açmak ister misiniz?")
+                alert.addButton(withTitle: L("İndirme Sayfasını Aç"))
+                alert.addButton(withTitle: L("Sonra"))
                 if alert.runModal() == .alertFirstButtonReturn { NSWorkspace.shared.open(available.page) }
             } else {
-                alert.messageText = result == nil ? "Güncelleme denetlenemedi" : "NOX güncel"
-                alert.informativeText = result == nil ? "GitHub'a ulaşılamadı. İnternet bağlantınızı denetleyin." : "Sürüm \(Self.current) en yeni sürüm."
+                alert.messageText = result == nil ? L("Güncelleme denetlenemedi") : L("NOX güncel")
+                alert.informativeText = result == nil ? L("GitHub'a ulaşılamadı. İnternet bağlantınızı denetleyin.") : L("Sürüm \(Self.current) en yeni sürüm.")
                 alert.runModal()
             }
         }
